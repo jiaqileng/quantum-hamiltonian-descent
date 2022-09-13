@@ -1,0 +1,1 @@
+We use pseudo-spectral method to simulate QHD in two-dimensions for all the instance functions. 
