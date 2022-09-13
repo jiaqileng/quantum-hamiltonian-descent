@@ -14,7 +14,7 @@ Run **DoAugLag.py** to apply the standard Augmented Lagrangian method for solvin
 
 Prerequisites: Python 3.7.2 or greater, Amazon Braket SDK, Amazon Braket Ocean Plugin... (Good to go if you run the experiments on an AWS Braket notebook instance, use the "conda_braket" kernel)
 
-Run the notebook **amazon-braket-QAA-QHD.ipynb** to apply the QAA and QHD algorithms for solving the QP problems. The results (samples from DWave) are saved in the instance sub-directory. 
+Run the notebook **amazon_braket_QAA_QHD.ipynb** to apply the QAA and QHD algorithms for solving the QP problems. The results (samples from DWave) are saved in the instance sub-directory. 
 
-Run the script "quantum-post-processing.py" to apply the post-processing (with the standard augmented Lagrangian method) to the quantum samples. 
+Run the script "qhd_post_processing.py" and "qaa_post_processing.py" to apply the post-processing (with the standard augmented Lagrangian method) to the quantum samples. 
 
