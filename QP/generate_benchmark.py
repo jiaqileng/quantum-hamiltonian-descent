@@ -11,7 +11,7 @@ import cyipopt
 import argparse
 
 # Please change the data directory and benchmark name
-DATA_DIR = "/Users/lengjiaqi/QHD_DATA/QP"; 
+DATA_DIR = "/Users/lengjiaqi/QHD_DATA/QP"
 
 class QuadraticProgram():
     # This class describes the quadratic programming problem:
