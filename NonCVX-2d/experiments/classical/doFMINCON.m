@@ -14,8 +14,9 @@ addpath(fullfile(pwd, "../../util"));
 % Filesystem setup! Important!
 WRITE_TO_FS = true;
 
-% Please change the data directory
+% Please change the data directory and benchmark name
 DATA_DIR = "/Users/lengjiaqi/QHD_DATA/NonCVX-2d"; 
+benchmark_name = "QP-75d-5s";
 
 %% 2D Setup
 dim = 2;
@@ -119,7 +120,7 @@ for tid = 1:numel(experiments)
         % Comment at the end of the following line suppresses a warning
         % about potentially unreachable code (intentional switch on
         % WRITE_TO_FS).
-        save_target_dir = fullfile(DATA_DIR); %#ok<*UNRCH>
+        save_target_dir = fullfile(DATA_DIR, benchmark_name); %#ok<*UNRCH>
 
         if ~exist(save_target_dir, "dir")
             mkdir(save_target_dir);

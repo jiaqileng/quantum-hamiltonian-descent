@@ -7,7 +7,7 @@ numruns = 1000;
 NUM_INSTANCES = 50;
 
 % Please change the data directory and benchmark name
-DATA_DIR = "/Users/lengjiaqi/QHD_DATA/QP"; 
+DATA_DIR = "/Users/lengjiaqi/QHD_DATA/NonCVX-2d"; 
 benchmark_name = "QP-75d-5s";
 
 % Input directory of mat files
