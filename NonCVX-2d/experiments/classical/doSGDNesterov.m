@@ -32,7 +32,6 @@ num_cells = 256;
 experimentSetup;
 
 %%
-
 experiments = [...
     ackley_experiment, ...
     ackley2_experiment, ...
@@ -205,7 +204,7 @@ for tid = 1:numel(experiments)
         rng('default');
         starting_points = rand(2, N);
         
-        save('starting_points', 'starting_points');
+        %save('starting_points', 'starting_points');
 
     end % Classical setup
     
