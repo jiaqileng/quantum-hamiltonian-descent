@@ -1,6 +1,6 @@
 format compact;
 % Set path (from snopt files)
-setpath;
+%setpath;
 
 % Problem specifications to modify
 numruns = 1000;

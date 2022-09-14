@@ -2,16 +2,16 @@ import numpy as np
 import os
 from os.path import join, exists
 
-import sys
-sys.path.insert(1, '/utils')
-from generate_benchmark_utils import construct_sparse, random_constraints, solve_gurobi
-
 # Ipopt
 import cyipopt
 import argparse
 
-# Please change the data directory and benchmark name
-DATA_DIR = "/Users/lengjiaqi/QHD_DATA/QP"
+from generate_benchmark_utils import construct_sparse, random_constraints, solve_gurobi
+
+# import data directory
+import sys
+sys.path.insert(0, '../')
+from config import * 
 
 class QuadraticProgram():
     # This class describes the quadratic programming problem:
@@ -73,8 +73,11 @@ sparsity = min(2 * bandwidth + 1, dimension)
 count = 0
 while count<50:
     benchmark_name = f"QP-{dimension}d-{sparsity}s"
-    instance_path = join(DATA_DIR, f"{benchmark_name}/instance_{count}")
+    benchmark_path = join(DATA_DIR_QP, benchmark_name)
+    if not exists(benchmark_path):
+        os.mkdir(benchmark_path)
 
+    instance_path = join(DATA_DIR_QP, f"{benchmark_name}/instance_{count}/")
     if not exists(instance_path):
         os.mkdir(instance_path)
     

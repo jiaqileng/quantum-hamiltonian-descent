@@ -2,7 +2,7 @@ import numpy as np
 from os.path import join
 
 import sys
-sys.path.insert(1, '../../utils')
+sys.path.insert(1, '../')
 from AugLagrangian import AugLagrangian
 
 # Please change the data directory and benchmark name
@@ -16,10 +16,11 @@ for instance in range(num_instances):
     instance_filename = join(instance_dir, f"instance_{instance}.npy")
 
     # Load instance problem data
-    Q = np.load(instance_filename)
-    b = np.load(instance_filename)
-    Q_c = np.load(instance_filename)
-    b_c = np.load(instance_filename)
+    with open(instance_filename, 'rb') as f:
+        Q = np.load(f)
+        b = np.load(f)
+        Q_c = np.load(f)
+        b_c = np.load(f)
 
     # Build the optimization model
     dimension = len(Q)
@@ -37,13 +38,14 @@ for instance in range(num_instances):
     rand_init_filename = join(instance_dir, f"rand_init_{instance}.npy")
     rand_init_samples = np.load(rand_init_filename)
     numruns = len(rand_init_samples)
+    numruns = 10
 
     auglag_samples = np.zeros((numruns, dimension))
     for j in range(numruns):
         x0 = rand_init_samples[j]
         result = model.optimizer(x0, MAX_STEPS, PENALTY_BASE, TOL, ETA)
         xf = result["final_soln"]
-        auglag_samples[k] = xf
+        auglag_samples[j] = xf
 
     # Save auglag samples
     auglag_sample_filename = f"auglag_sample_{instance}.npy"

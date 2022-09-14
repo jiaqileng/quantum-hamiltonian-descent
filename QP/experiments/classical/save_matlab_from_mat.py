@@ -4,10 +4,15 @@ import scipy.io
 import argparse
 from os.path import join
 
-# Please change the data directory and benchmark name
-DATA_DIR = "/Users/lengjiaqi/QHD_DATA/QP"
+# import data directory
+import sys
+sys.path.insert(0, '../../../')
+from config import * 
+
+
+
 benchmark_name = "QP-75d-5s";
-benchmark_dir = join(DATA_DIR, benchmark_name)
+benchmark_dir = join(DATA_DIR_QP, benchmark_name)
 num_instances = 50
 
 for instance in range(num_instances):
