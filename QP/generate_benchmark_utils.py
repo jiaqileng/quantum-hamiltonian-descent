@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+import scipy.sparse
 import gurobipy as gp
 
 def construct_sparse(bandwidth : int, dimension : int):
