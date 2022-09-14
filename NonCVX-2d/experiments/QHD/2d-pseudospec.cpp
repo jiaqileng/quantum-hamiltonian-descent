@@ -17,10 +17,10 @@ using namespace Eigen;
 const int RANK = 2;
 const int CAPTURE_FRAME_EVERY = 500;
 const double GAMMA = 0.01;
+const int NUMBER_OF_FUNCTIONS = 22;
 const string HOME_DIR = getenv("HOME");
 const string DATA_DIR = path(HOME_DIR).append("QHD_DATA");
 const string NONCVX_DIR = path(DATA_DIR).append("NonCVX-2d");
-const int NUMBER_OF_FUNCTIONS = 22;
 
 double t_dep_1(const double &t) {
     return 1 / (1 + GAMMA * t * t);
@@ -95,6 +95,7 @@ void pseudospec(const int &num_qubits, const ArrayXXd &V, const double &L, const
     *    H(t) = -0.5 * tdep(t) * Laplacian + V(x)
     *  defined on [-L,L]^2
     */
+
     string function_dir = path(NONCVX_DIR).append(function_name);
     string wfn_dir = path(function_dir).append(function_name + "_QHD_WFN");
     if (!filesystem::exists(function_dir)) {
@@ -133,12 +134,13 @@ void pseudospec(const int &num_qubits, const ArrayXXd &V, const double &L, const
         exit(EXIT_FAILURE);
     }
     fftw_plan_with_nthreads(omp_get_max_threads());
-    // Used for computing fft2(u1) in matlab code
+    
+    // Used to compute fft
     in = (fftw_complex *)&u(0, 0);
     out = (fftw_complex *)&u(0, 0);
     p1 = fftw_plan_dft(RANK, n, in, out, FFTW_FORWARD, FFTW_MEASURE);
 
-    // Used for computing ifft2(...) in matlab code
+    // Used to compute ifft
     in = (fftw_complex *)&u(0, 0);
     out = (fftw_complex *)&psi_new(0, 0);
     p2 = fftw_plan_dft(RANK, n, in, out, FFTW_BACKWARD, FFTW_MEASURE);
