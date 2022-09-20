@@ -10,9 +10,7 @@ import seaborn as sns
 mpl.style.use("seaborn")
 
 
-
 SHOULD_SAVE = True
-
 
 
 # Plot Params
@@ -38,8 +36,6 @@ medians = {}
 errs = {}
 
 f, ax = plt.subplots(2, 2, figsize=(180/25.4, 95/25.4), dpi=300)
-# f, ax = plt.subplots(2, 2, figsize=(180/25.4, 135/25.4), dpi=300)
-# plt.subplots_adjust(left=0.0, right=1.0, hspace=0.1)
 plt.subplots_adjust(left=0.0, right=1.0, hspace=0.3)
 
 cmap = sns.color_palette("colorblind")
@@ -126,11 +122,11 @@ ax[plot_assignment["stats"]].set_ylabel("Success Probability", size=YLABEL_SIZE)
 
 
 if SHOULD_SAVE:
-	if not os.path.exists("figures"):
-		os.mkdir("figures")
-	
-	fname = "QPMegaplotThin"
-	for ext in ['.svg', '.png']:
-		plt.savefig(f"figures/{fname+ext}")
+    if not os.path.exists("figures"):
+        os.mkdir("figures")
+
+    fname = "QPMegaplotThin"
+    for ext in ['.svg', '.png']:
+        plt.savefig(f"figures/{fname+ext}")
 
 plt.show()
