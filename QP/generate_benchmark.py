@@ -68,16 +68,17 @@ bandwidth = args.bandwidth[0]
 num_constraints = args.num_constraints[0]
 
 numruns = 1000
+num_instances = 50
 sparsity = min(2 * bandwidth + 1, dimension)
 
-count = 0
-while count<50:
+instance = 0
+while instance < num_instances:
     benchmark_name = f"QP-{dimension}d-{sparsity}s"
     benchmark_path = join(DATA_DIR_QP, benchmark_name)
     if not exists(benchmark_path):
         os.mkdir(benchmark_path)
 
-    instance_path = join(DATA_DIR_QP, f"{benchmark_name}/instance_{count}/")
+    instance_path = join(DATA_DIR_QP, f"{benchmark_name}/instance_{instance}/")
     if not exists(instance_path):
         os.mkdir(instance_path)
     
@@ -92,8 +93,6 @@ while count<50:
     gurobi_solution = x
 
     ground_loss = (x @ Q @ x) / 2 + b @ x
-    
-    results = np.zeros(numruns)
 
     num_cons = b_c.size
     lb = np.zeros(dimension)
@@ -120,30 +119,29 @@ while count<50:
     for i in range(numruns):
         x, _ = nlp.solve(rand_init_x[i])
         ipopt_samples[i] = x
-        results[i] = (x @ Q @ x) / 2 + b @ x
     
     # Save gurobi solution
-    filename = f"gurobi_solution_{count}.npy"
+    filename = f"gurobi_solution_{instance}.npy"
     with open(join(instance_path, filename), 'wb') as f:
         np.save(f, gurobi_solution)
 
     # Save random initializations
-    filename = f"rand_init_{count}.npy"
+    filename = f"rand_init_{instance}.npy"
     with open(join(instance_path, filename), 'wb') as f:
         np.save(f, rand_init_x)
 
     # Save IPOpt samples
-    filename = f"ipopt_sample_{count}.npy"
+    filename = f"ipopt_sample_{instance}.npy"
     with open(join(instance_path, filename), 'wb') as f:
         np.save(f, ipopt_samples)
 
     # Save problem instance
-    filename = f"instance_{count}.npy"
+    filename = f"instance_{instance}.npy"
     with open(join(instance_path, filename), 'wb') as f:
         np.save(f, Q)
         np.save(f, b)
         np.save(f, Q_c)
         np.save(f, b_c)
 
-    print(f"Instance {count}.")
-    count += 1
+    print(f"Instance {instance}.")
+    instance += 1
