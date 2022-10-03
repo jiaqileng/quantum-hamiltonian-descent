@@ -36,5 +36,5 @@ plt.tight_layout()
 if not os.path.exists("figures"):
     os.mkdir("figures")
 fname = "gurobi_runtime"
-for ext in ['.svg', '.png']:
+for ext in ['.eps', '.svg', '.png']:
     plt.savefig(f"figures/{fname+ext}", dpi=300)
