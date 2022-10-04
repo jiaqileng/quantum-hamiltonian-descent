@@ -15,7 +15,8 @@ To run 'improve.py' you will need:
 	python == 3.6
 	numpy == 1.13.3
 	scipy == 0.19.1
-	CVXcanon <= 0.1.1 (0.1.2 does not work!)
+	setuptools <=57.5.0
 	cvxpy <= 0.4.9
+	CVXcanon <= 0.1.1 (0.1.2 does not work!)
 	qcqp == 0.8.3
 ```
