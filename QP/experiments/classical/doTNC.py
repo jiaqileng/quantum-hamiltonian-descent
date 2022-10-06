@@ -10,7 +10,7 @@ from config import *
 
 # specify benchmark
 dimension = 75
-num_instances = 1
+num_instances = 50
 benchmark_name = f"QP-{dimension}d-5s"
 benchmark_dir = join(DATA_DIR_QP, benchmark_name)
 
