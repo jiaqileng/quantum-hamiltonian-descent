@@ -1,20 +1,17 @@
 import numpy as np
-import io
-import os
+from scipy.optimize import minimize
+from scipy.optimize import Bounds
 import multiprocessing
 from joblib import Parallel, delayed
 from os.path import join
-
 import sys
-sys.path.insert(0, '../')
-from AugLagrangian import AugLagrangian
 
 # import data directory
 sys.path.insert(1, '../../../')
 from config import * 
 
 
-def post_processing(benchmark_name, instance, resolution):
+def post_processing_qhd(benchmark_name, instance, resolution):
 	print(f"Run QHD-post-processing on instance No. {instance} from {benchmark_name}.")
 
 	benchmark_dir = join(DATA_DIR_QP, benchmark_name)
@@ -37,22 +34,20 @@ def post_processing(benchmark_name, instance, resolution):
 
 	# Build the post-processing model
 	dimension = len(Q)
-	lb = 0
-	ub = 1
-	model = AugLagrangian(Q, b, Q_c, b_c, lb, ub)
+	bounds = Bounds(np.zeros(dimension), np.ones(dimension))
 
-	# Specify optimization hyper-parameters
-	MAX_STEPS = 1e4
-	PENALTY_BASE = 10
-	TOL = 1e-6
-	ETA = 1e-8
+	def qp_fun(x):
+		return 0.5 * x @ Q @ x + b @ x
+
+	def qp_der(x):
+		return Q @ x + b
 
 	post_qhd_samples = np.zeros((numruns, dimension))
 	for k in range(numruns):
 		x0 = qhd_samples[k]
-		result = model.optimizer(x0, MAX_STEPS, PENALTY_BASE, TOL, ETA)
-		xf = result["final_soln"]
-		post_qhd_samples[k] = xf
+		result = minimize(qp_fun, x0, method='TNC', jac=qp_der, bounds=bounds,
+                            options={'gtol': 1e-9, 'eps': 1e-9})
+		post_qhd_samples[k] = result.x
 		if k % 100 == 0:
 			print(f'ID: {instance} -- The {k}-th run has completed.')
 
@@ -61,6 +56,7 @@ def post_processing(benchmark_name, instance, resolution):
 	post_filename = join(instance_dir, post_sample_filename)
 	with open(post_filename , 'wb') as f:
 		np.save(f, post_qhd_samples)
+	print(f"Benchmark: {benchmark_name}, instance: {instance}, post-processed QHD sample saved.")
 
 	return 
 
@@ -74,4 +70,4 @@ if __name__ == "__main__":
 	num_cores = multiprocessing.cpu_count()
 	print(f'Num. of cores: {num_cores}.')
 
-	par_list = Parallel(n_jobs=num_cores)(delayed(post_processing)(benchmark_name, tid, resolution) for tid in range(num_instances))
+	par_list = Parallel(n_jobs=num_cores)(delayed(post_processing_qhd)(benchmark_name, tid, resolution) for tid in range(num_instances))

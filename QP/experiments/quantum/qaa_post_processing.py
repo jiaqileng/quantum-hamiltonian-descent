@@ -1,13 +1,10 @@
 import numpy as np
-import io
-import os
+from scipy.optimize import minimize
+from scipy.optimize import Bounds
 import multiprocessing
 from joblib import Parallel, delayed
 from os.path import join
-
 import sys
-sys.path.insert(1, '../')
-from AugLagrangian import AugLagrangian
 
 # import data directory
 sys.path.insert(1, '../../../')
@@ -37,22 +34,20 @@ def post_processing_qaa(benchmark_name, instance, SCHEDULE, resolution):
 
 	# Build the post-processing model
 	dimension = len(Q)
-	lb = 0
-	ub = 1
-	model = AugLagrangian(Q, b, Q_c, b_c, lb, ub)
+	bounds = Bounds(np.zeros(dimension), np.ones(dimension))
 
-	# Specify optimization hyper-parameters
-	MAX_STEPS = 1e4
-	PENALTY_BASE = 10
-	TOL = 1e-6
-	ETA = 1e-8
+	def qp_fun(x):
+		return 0.5 * x @ Q @ x + b @ x
+
+	def qp_der(x):
+		return Q @ x + b
 
 	post_qaa_samples = np.zeros((numruns, dimension))
 	for k in range(numruns):
 		x0 = qaa_samples[k]
-		result = model.optimizer(x0, MAX_STEPS, PENALTY_BASE, TOL, ETA)
-		xf = result["final_soln"]
-		post_qaa_samples[k] = xf
+		result = minimize(qp_fun, x0, method='TNC', jac=qp_der, bounds=bounds,
+                            options={'gtol': 1e-9, 'eps': 1e-9})
+		post_qaa_samples[k] = result.x
 		if k % 100 == 0:
 			print(f'ID: {instance} -- The {k}-th run has completed.')
 
@@ -61,6 +56,7 @@ def post_processing_qaa(benchmark_name, instance, SCHEDULE, resolution):
 	post_filename = join(instance_dir, post_sample_filename)
 	with open(post_filename , 'wb') as f:
 		np.save(f, post_qaa_samples)
+	print(f"Benchmark: {benchmark_name}, instance: {instance}, post-processed QHD sample saved.")
 
 	return 
 
