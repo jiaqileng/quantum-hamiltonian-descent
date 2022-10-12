@@ -97,7 +97,7 @@ def classical_simulation(instance):
 
 	# Run simulation for time tf
 	#T = [1e-3, 1e-2, 1e-1, 1] # time unit: micro-second
-	T = [1e-3]
+	T = [1]
 	# sampling parameter
 	numruns = 1000
 	coord_list = get_coord_list(r, dimension)
@@ -142,5 +142,6 @@ def classical_simulation(instance):
 if __name__ == "__main__":
 	num_cores = multiprocessing.cpu_count()
 	print(f'Num. of cores: {num_cores}.')
-	num_instances = 1
-	par_list = Parallel(n_jobs=num_cores)(delayed(classical_simulation)(tid) for tid in range(num_instances))
+	#num_instances = 1
+	#par_list = Parallel(n_jobs=num_cores)(delayed(classical_simulation)(tid) for tid in range(num_instances))
+	classical_simulation(6)

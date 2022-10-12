@@ -41,25 +41,28 @@ plt.subplots_adjust(left=0.0, right=1.0, hspace=0.3)
 
 cmap = sns.color_palette("colorblind")
 
-DIMS = [50, 60, 75]
-#DIMS = [75]
-plot_assignment = {50: (0, 0), 60: (0, 1), 75: (1, 0), "stats": (1, 1)}
+DIMS = [5, 50, 60, 75]
+plot_assignment = {5: (0,0), 50: (0, 1), 60: (1, 0), 75: (1, 1)}
 
 for dim_idx in range(len(DIMS)):
     dim = DIMS[dim_idx]
-    benchmark_name = f"QP-{dim}d-5s"
+    if dim == 5:
+        benchmark_name = f"QP-{dim}d"
+    else:
+        benchmark_name = f"QP-{dim}d-5s"
     
     dataframe_filename = f"{benchmark_name}.xlsx"
     tab_prob = pd.read_excel(join("qp_data", dataframe_filename), sheet_name="time-to-solution (tts)", index_col=0)
     tab_prob.replace(np.inf, np.nan, inplace=True)
+    num_methods = len(tab_prob.columns)
 
     sns.boxplot(ax=ax[plot_assignment[dim]], orient="h", data=tab_prob, palette="colorblind", showfliers=False, fliersize=FLIER_SIZE, linewidth=LINEWIDTH)
     
     means[dim] = []
     medians[dim] = []
-    errs[dim] = np.ndarray((2, len(tab_prob.columns)))
+    errs[dim] = np.ndarray((2, num_methods))
     
-    for col_idx in range(len(tab_prob.columns)):
+    for col_idx in range(num_methods):
         col = tab_prob.columns[col_idx]    
         
         col_mean = np.nanmean(tab_prob[col])
@@ -75,48 +78,54 @@ for dim_idx in range(len(DIMS)):
         errs[dim][:, col_idx] = np.abs(np.quantile(tab_prob[col], [0.25, 0.75]).T - medians[dim][-1])
         
     ax[plot_assignment[dim]].axvline(medians[dim][0], linewidth=LINEWIDTH, color=cmap[0])
-    
+    '''
     ax[(0, 0)].set_title("d50", size=XLABEL_SIZE, pad=2)
     ax[(0, 1)].set_title("d60", size=XLABEL_SIZE, pad=2)
     ax[(1, 0)].set_title("d75", size=XLABEL_SIZE, pad=2)
     #ax[(1, 1)].set_title("Summary Statistics", size=XLABEL_SIZE, pad=2)
 
-    ax[(0, 0)].xaxis.set_tick_params(pad=2)
+    
     ax[(0, 1)].xaxis.set_tick_params(pad=2)
     ax[(1, 0)].xaxis.set_tick_params(pad=2)
     #ax[(1, 1)].xaxis.set_tick_params(pad=2)
 
-    ax[(0, 0)].set_xlabel("time-to-solution (second)", size=XLABEL_SIZE)
+    
     ax[(0, 1)].set_xlabel("time-to-solution (second)", size=XLABEL_SIZE)
     ax[(1, 0)].set_xlabel("time-to-solution (second)", size=XLABEL_SIZE)
     #ax[(1, 1)].set_xlabel("Optimization Method", size=XLABEL_SIZE)
 
-    ax[(0, 0)].set_xscale("log")
+    
     ax[(0, 1)].set_xscale("log")
     ax[(1, 0)].set_xscale("log")
     
-    ax[(0, 0)].xaxis.labelpad = 2
+    
     ax[(0, 1)].xaxis.labelpad = 2
     ax[(1, 0)].xaxis.labelpad = 2
     #ax[(1, 1)].xaxis.labelpad = 2
+    '''
 
 i = 0
-for dim in [50, 60, 75]:
+for dim in [5, 50, 60, 75]:
     color = cmap[i]
     paired_color = tuple([(channel + 0.5*(1-channel)) for channel in color])
 
-    ax[plot_assignment["stats"]].errorbar(x=np.arange(len(medians[dim])), y=medians[dim], label=f"d{dim} Medians", marker="o", markersize=MARKER_SIZE, linestyle="-", linewidth=1, color=color)
-    ax[plot_assignment["stats"]].errorbar(x=np.arange(len(means[dim])), y=means[dim], label=f"d{dim} Means", marker="o", markersize=MARKER_SIZE, linestyle="--", linewidth=1,  color=paired_color)
+    #ax[plot_assignment["stats"]].errorbar(x=np.arange(len(medians[dim])), y=medians[dim], label=f"d{dim} Medians", marker="o", markersize=MARKER_SIZE, linestyle="-", linewidth=1, color=color)
+    #ax[plot_assignment["stats"]].errorbar(x=np.arange(len(means[dim])), y=means[dim], label=f"d{dim} Means", marker="o", markersize=MARKER_SIZE, linestyle="--", linewidth=1,  color=paired_color)
     i += 1
 
-ax[plot_assignment["stats"]].set_xticks(range(7), tab_prob.columns)
+#ax[plot_assignment["stats"]].set_xticks(range(7), tab_prob.columns)
 
 
 for key in plot_assignment.keys():
+    ax[plot_assignment[key]].set_title(f"{key}d", size=XLABEL_SIZE, pad=2)
+    ax[plot_assignment[key]].xaxis.set_tick_params(pad=2)
+    ax[plot_assignment[key]].set_xlabel("time-to-solution (second)", size=XLABEL_SIZE)
+    ax[plot_assignment[key]].set_xscale("log")
+    ax[plot_assignment[key]].xaxis.labelpad = 2
     ax[plot_assignment[key]].tick_params(axis='x', which='major', labelsize=XTICKLABEL_SIZE)
     ax[plot_assignment[key]].tick_params(axis='y', which='major', labelsize=YTICKLABEL_SIZE)
 
-ax[plot_assignment["stats"]].legend(bbox_to_anchor=(1, 1), frameon=True, facecolor="white", borderpad=0.35, prop={'size': LEGEND_SIZE})
+#ax[plot_assignment["stats"]].legend(bbox_to_anchor=(1, 1), frameon=True, facecolor="white", borderpad=0.35, prop={'size': LEGEND_SIZE})
 #ax[plot_assignment["stats"]].set_ylabel("Success Probability", size=YLABEL_SIZE)
 
 

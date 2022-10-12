@@ -16,13 +16,27 @@ def get_samples(bucket_name, filename):
     return np.load(bytes_)
 
 
-def save_data(benchmark_name, num_instances, resolution, tol):
+def save_data(dimension, resolution, tol):
+    if dimension == 5:
+        benchmark_name = f"QP-{dimension}d"
+        num_instances = 10
+        methods = [f"tnc_post_advantage6_sim_rez{resolution}_T1000",
+                   f"tnc_post_advantage6_qhd_rez{resolution}",
+                   f"tnc_post_advantage6_qaa_scheduleB_rez{resolution}", 
+                   "tnc", "snopt", "matlab_sqp", "qcqp", "ipopt"]
+        methods_short = ["Sim-QHD","DW-QHD","DW-QAA","TNC","SNOPT","MATLAB","QCQP","IPOPT"]
+
+    else:
+        benchmark_name = f"QP-{dimension}d-5s"
+        num_instances = 50
+        methods = [f"tnc_post_advantage6_qhd_rez{resolution}", "snopt",
+                   f"tnc_post_advantage6_qaa_scheduleB_rez{resolution}", "ipopt", "tnc", "matlab_sqp", "qcqp",]
+        methods_short = ["DW-QHD","SNOPT","DW-QAA","IPOPT","TNC","MATLAB","QCQP"]
     print(benchmark_name)
+
     bucket_name = "amazon-braket-wugroup-us-east-1"
 
-    methods = [f"tnc_post_advantage6_qhd_rez{resolution}", "snopt",
-               f"tnc_post_advantage6_qaa_scheduleB_rez{resolution}", "ipopt", "tnc", "matlab_sqp", "qcqp",]
-    methods_short = ["DW-QHD","SNOPT","DW-QAA","IPOPT","TNC","MATLAB","QCQP"]
+    
     num_methods = len(methods)
     success_prob = np.zeros((num_methods, num_instances))
     physical_runtime = np.zeros((num_methods, num_instances))
@@ -90,10 +104,9 @@ def save_data(benchmark_name, num_instances, resolution, tol):
     return
 
 if __name__ == "__main__":
-    dimensions = [50, 60, 75]
-    num_instances = 50
+    #dimensions = [50, 60, 75]
+    dimensions = [5]
     resolution = 8
     tol = 1e-2
     for d in dimensions:
-        benchmark_name = f"QP-{d}d-5s"
-        save_data(benchmark_name, num_instances, resolution, tol)
+        save_data(d, resolution, tol)
