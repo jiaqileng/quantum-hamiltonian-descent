@@ -78,42 +78,12 @@ for dim_idx in range(len(DIMS)):
         errs[dim][:, col_idx] = np.abs(np.quantile(tab_prob[col], [0.25, 0.75]).T - medians[dim][-1])
         
     ax[plot_assignment[dim]].axvline(medians[dim][0], linewidth=LINEWIDTH, color=cmap[0])
-    '''
-    ax[(0, 0)].set_title("d50", size=XLABEL_SIZE, pad=2)
-    ax[(0, 1)].set_title("d60", size=XLABEL_SIZE, pad=2)
-    ax[(1, 0)].set_title("d75", size=XLABEL_SIZE, pad=2)
-    #ax[(1, 1)].set_title("Summary Statistics", size=XLABEL_SIZE, pad=2)
-
-    
-    ax[(0, 1)].xaxis.set_tick_params(pad=2)
-    ax[(1, 0)].xaxis.set_tick_params(pad=2)
-    #ax[(1, 1)].xaxis.set_tick_params(pad=2)
-
-    
-    ax[(0, 1)].set_xlabel("time-to-solution (second)", size=XLABEL_SIZE)
-    ax[(1, 0)].set_xlabel("time-to-solution (second)", size=XLABEL_SIZE)
-    #ax[(1, 1)].set_xlabel("Optimization Method", size=XLABEL_SIZE)
-
-    
-    ax[(0, 1)].set_xscale("log")
-    ax[(1, 0)].set_xscale("log")
-    
-    
-    ax[(0, 1)].xaxis.labelpad = 2
-    ax[(1, 0)].xaxis.labelpad = 2
-    #ax[(1, 1)].xaxis.labelpad = 2
-    '''
 
 i = 0
 for dim in [5, 50, 60, 75]:
     color = cmap[i]
     paired_color = tuple([(channel + 0.5*(1-channel)) for channel in color])
-
-    #ax[plot_assignment["stats"]].errorbar(x=np.arange(len(medians[dim])), y=medians[dim], label=f"d{dim} Medians", marker="o", markersize=MARKER_SIZE, linestyle="-", linewidth=1, color=color)
-    #ax[plot_assignment["stats"]].errorbar(x=np.arange(len(means[dim])), y=means[dim], label=f"d{dim} Means", marker="o", markersize=MARKER_SIZE, linestyle="--", linewidth=1,  color=paired_color)
     i += 1
-
-#ax[plot_assignment["stats"]].set_xticks(range(7), tab_prob.columns)
 
 
 for key in plot_assignment.keys():
@@ -124,9 +94,6 @@ for key in plot_assignment.keys():
     ax[plot_assignment[key]].xaxis.labelpad = 2
     ax[plot_assignment[key]].tick_params(axis='x', which='major', labelsize=XTICKLABEL_SIZE)
     ax[plot_assignment[key]].tick_params(axis='y', which='major', labelsize=YTICKLABEL_SIZE)
-
-#ax[plot_assignment["stats"]].legend(bbox_to_anchor=(1, 1), frameon=True, facecolor="white", borderpad=0.35, prop={'size': LEGEND_SIZE})
-#ax[plot_assignment["stats"]].set_ylabel("Success Probability", size=YLABEL_SIZE)
 
 
 if SHOULD_SAVE:

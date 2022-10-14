@@ -20,11 +20,12 @@ def save_data(dimension, resolution, tol):
     if dimension == 5:
         benchmark_name = f"QP-{dimension}d"
         num_instances = 10
-        methods = [f"tnc_post_advantage6_sim_rez{resolution}_T1000",
+        methods = [f"tnc_post_advantage6_sim_qhd_rez{resolution}_T1000",
                    f"tnc_post_advantage6_qhd_rez{resolution}",
-                   f"tnc_post_advantage6_qaa_scheduleB_rez{resolution}", 
+                   f"tnc_post_advantage6_qaa_scheduleB_rez{resolution}",
+                   f"tnc_post_advantage6_sim_qaa_rez{resolution}_T1000",
                    "tnc", "snopt", "matlab_sqp", "qcqp", "ipopt"]
-        methods_short = ["Sim-QHD","DW-QHD","DW-QAA","TNC","SNOPT","MATLAB","QCQP","IPOPT"]
+        methods_short = ["Sim-QHD","DW-QHD","DW-QAA","Sim-QAA","TNC","SNOPT","MATLAB","QCQP","IPOPT"]
 
     else:
         benchmark_name = f"QP-{dimension}d-5s"
