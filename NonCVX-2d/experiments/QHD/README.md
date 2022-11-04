@@ -1,20 +1,11 @@
 We use pseudo-spectral method to simulate QHD in two-dimensions for all the instance functions. 
 
-
-To-Do list:
-1. Ethan: replace the old data files with new ones on BOX; (**Do not overwrite the data!!!**)
-2. Ethan: push the new potentials256.mat (with all instances) to this repo; (replace the old one)
-
-Let Jiaqi and Joseph know!
-
-3. Joseph: re-run the CPP program and check it if works (make sure the output wfn data name matches the dataset Ethan uploaded); 
-4. Joseph: mention the instances that require special parameters in the pseudospectral solver.
-5. Jiaqi: change the qhd wave function name in the fig2 plot script. 
-
 ## Usage
-It is recommended to run the program on a Linux distribution with OpenMP installed. The provided Makefile uses g++ to compile the program.
+It is recommended to run the program on Linux. OpenMP is used for parallelization, so FFTW may need to be configured with `--enable-openmp`. The provided Makefile uses g++ to compile the program.
 
 Prerequisites: [make](https://www.gnu.org/software/make/), [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page#Download), [FFTW](https://www.fftw.org/download.html), [matio](https://github.com/tbeu/matio)
+
+We use OpenMP to parallelize the code, so FFTW should be configured with `--enable-openmp`.
 
 Assuming the prerequisites are installed, the program can be run by simply running
 ```
