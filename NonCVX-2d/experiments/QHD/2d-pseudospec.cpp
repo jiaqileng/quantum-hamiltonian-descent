@@ -16,17 +16,16 @@ using namespace Eigen;
 
 const int RANK = 2;
 const int CAPTURE_FRAME_EVERY = 500;
-const double GAMMA = 0.01;
 const int NUMBER_OF_FUNCTIONS = 22;
 const string HOME_DIR = getenv("HOME");
 const string DATA_DIR = path(HOME_DIR).append("QHD_DATA");
 const string NONCVX_DIR = path(DATA_DIR).append("NonCVX-2d");
 
 double t_dep_1(const double &t) {
-    return 1 / (1 + GAMMA * t * t);
+    return 2 / (0.001 + t * t * t);
 }
 double t_dep_2(const double &t) {
-    return 1 + GAMMA * t * t;
+    return 2 * t * t * t;
 }
 
 void initialize_psi(ArrayXXcd &y, const double &L, const int &N) {
