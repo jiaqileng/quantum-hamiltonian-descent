@@ -1,4 +1,5 @@
-% Change resolution in experimentSetup.m
+% Set resolution to 128 or 256
+num_cells = 256
 run experimentSetup.m
 
 num_experiments = 22;

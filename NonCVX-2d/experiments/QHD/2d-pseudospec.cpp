@@ -86,7 +86,7 @@ void hadamard_product(ArrayXXcd &A, ArrayXXcd &B, ArrayXXcd &out, const int &N) 
     }
 }
 
-void pseudospec(const int &num_qubits, const ArrayXXd &V, const double &L, const int &N, ArrayXXcd &psi,
+void pseudospec(const ArrayXXd &V, const double &L, const int &N, ArrayXXcd &psi,
                 const double &dt, const double &T, const string function_name)
 {
     /*
@@ -215,16 +215,15 @@ int main(int argc, char **argv)
 {
 
     if (argc != 6) {
-        perror("Expected arguments: ./2d-pseudospec <L> <num_qubits> <T> <dt> <potentials_filename>");
+        perror("Expected arguments: ./2d-pseudospec <L> <num_cells> <T> <dt> <potentials_filename>");
         exit(EXIT_FAILURE);
     }
     const double L = stod(argv[1]);
-    const int num_qubits = stoi(argv[2]);
-    printf("L=%f, num_qubits=%d\n", L, num_qubits);
+    const int num_cells = stoi(argv[2]);
     const double T = stod(argv[3]);
-    printf("T=%f\n", T);
     const double dt = stod(argv[4]);
-    printf("dt=%f\n", dt);
+    printf("L=%f, num_cells=%d\n", L, num_cells);
+    printf("T=%f, dt=%f\n", T, dt);
     
     const char* potentials_filename;
 
@@ -233,11 +232,7 @@ int main(int argc, char **argv)
         cout << "Potentials filename: " << potentials_filename << endl;
     }
 
-    // number of qubits for each dimension
-    int N = pow(2, num_qubits / 2);
-    printf("N=%d\n", N);
-
-    double stepsize = 2 * L / N;
+    double stepsize = 2 * L / num_cells;
     printf("stepsize=%f\n", stepsize);
 
     printf("Max threads: %d\n", omp_get_num_procs());
@@ -251,10 +246,10 @@ int main(int argc, char **argv)
     }
     
     // psi
-    ArrayXXcd psi(N, N);
+    ArrayXXcd psi(num_cells, num_cells);
 
     // potential V
-    ArrayXXd V(N, N);
+    ArrayXXd V(num_cells, num_cells);
 
     // matio
     mat_t *matfp;
@@ -273,7 +268,7 @@ int main(int argc, char **argv)
     char *function_name;
     for (int function_id = 0; function_id < NUMBER_OF_FUNCTIONS; function_id++) {
         
-        initialize_psi(psi, L, N);
+        initialize_psi(psi, L, num_cells);
         name_cell = Mat_VarGetCell(names_matvar, function_id);
         function_name = (char*) name_cell->data;
         
@@ -284,8 +279,8 @@ int main(int argc, char **argv)
             cerr << "Failed to read names or potentials" << endl;
             exit(EXIT_FAILURE);
         }
-        load_potential(V, N, function_id, (double*) potentials_matvar->data);
-        pseudospec(num_qubits, V, L, N, psi, dt, T, function_name);
+        load_potential(V, num_cells, function_id, (double*) potentials_matvar->data);
+        pseudospec(V, L, num_cells, psi, dt, T, function_name);
 
     }
 
