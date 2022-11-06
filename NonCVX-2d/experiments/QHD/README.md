@@ -14,8 +14,6 @@ make
 ```
 In our experiments, we set the parameters as follows:
 ```
-./2d-pseudospec 0.5 16 500 0.005 potentials256.mat
+./2d-pseudospec 0.5 16 10 0.001 potentials256.mat
 ```
-For the results presented in the paper, the QHD parameters are fine-tuned for a few functions. For the Rosenbrock function, we use $\gamma$=0.05 instead of 0.01. The value of $\gamma$ is hardcoded into the program, but one may change it and run `make` again to recompile the program.
-
-For the Holder function, we use dt=0.001 instead of 0.005.
+One can also use `potentials128.mat` to run the program with lower resolution in the spatial discretization.
