@@ -27,7 +27,7 @@ All the experiment results (raw data) are available [here](https://umd.box.com/s
   + Samples from QAA (sample size = 1000, resolution = 8, implemented on D-Wave Advantage 6.1, evolution time = 800 microseconds), e.g., `/advantage6_qaa_rez8_sample_0.npy`;
   + Post-processed solutions of QAA (sample size = 1000, post-processed by Scipy TNC) and the corresponding runtime data, e.g., `/tnc_post_advantage6_qaa_rez8_sample_0.npy` and `/tnc_post_advantage6_qaa_rez8_runtime_0.npy`;
   + Random initializations (sample size = 1000, used by all classical local NLP solvers), e.g., `/rand_init_0.npy`;
-  + Solutions returned by [Gurobi](https://www.gurobi.com/) (used as the ground truth), e.g., `/instance_0_gurobi.npy`;
+  + Solutions returned by [Gurobi](https://www.gurobi.com/) (used as the ground truth), e.g., `/gurobi_solution_0.npy`;
   + Solutions returned by [Scipy TNC solver](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-tnc.html) and the corresponding runtime data, e.g., `/tnc_sample_0.npy` and `/tnc_runtime_0.npy`;
   + Solutions returned by [Ipopt](https://coin-or.github.io/Ipopt/) and the corresponding runtime data, e.g., `/ipopt_sample_0.npy` and `/ipopt_runtime_0.npy`;
   + Solutions returned by [SNOPT](https://ccom.ucsd.edu/~optimizers/solvers/snopt/) and the corresponding runtime data, e.g., `/snopt_sample_0.npy` and `/snopt_runtime_0.npy`;
