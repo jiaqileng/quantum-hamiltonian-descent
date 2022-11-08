@@ -57,3 +57,6 @@ octave-workspace
 
 # Simulink autosave extension
 .autosave
+
+# VSCode settings
+.vscode

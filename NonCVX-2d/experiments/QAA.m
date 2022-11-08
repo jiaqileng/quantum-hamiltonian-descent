@@ -1,29 +1,19 @@
-% Evolution to convergence of an observable for an initial wavepacket in a 
-% 2D potential with dissipation.
-
-% To collect a lot of data, it is necessary to run only to some level of 
-% convergence. See convergenceSchEqLeapfrog.m and the checkConvergence.m
-% utility for the structure and parameterization of the convergence 
-% criteria.
-
 % Be sure to change DATA_DIR to write to a directory if you so desire.
+DATA_DIR = "/Users/lengjiaqi/QHD_DATA/NonCVX-2d";
 
 % Include utilities dir.
-addpath(fullfile(pwd, "../../util"));
+addpath(fullfile(pwd, "../util"));
 
 % Include integrator dir
-addpath(fullfile(pwd, "../../integrators/scheqleapfrog/matlab"));
+addpath(fullfile(pwd, "../integrators/scheqleapfrog/matlab"));
 
 
 % Filesystem setup! Important!
-WRITE_TO_FS = true;
-
-% Please change the data directory
-DATA_DIR = "/Users/lengjiaqi/QHD_DATA/NonCVX-2d"; 
+WRITE_TO_FS = 1;
 
 %% 2D Setup
 dim = 2;
-num_cells = 64;
+num_cells = 128; % resolution
 
 experimentSetup;
 
@@ -95,7 +85,7 @@ parfor tid = 1:numel(experiments)
     cap_frame_every = 1e5;
 
     t = 0;
-    T = 500; % Adiabatic running time T
+    T = 10;
     
     H_0 = adiabatic_starting_hamiltonian(2 * log2(num_cells));
 
@@ -116,7 +106,7 @@ parfor tid = 1:numel(experiments)
     wfn_dims = size(wfn);
     num_frames = wfn_dims(1);
     expected_E = zeros(1, num_frames);
-
+    
     for idx = 1:num_frames
         expected_E(idx) = positionDependentExpectation(wfn(idx,:), experiment.H_U);
     end
@@ -130,24 +120,12 @@ parfor tid = 1:numel(experiments)
         % Parallel save
         parsaveFixedT(experiment_dir, save_target_dir, snapshot_times, wfn, expected_E, global_min_val, global_min_loc)
 
-        % Serial save
-%         save_target_fname = strcat(experiment_dir, "_simple_T1000_", "data.mat");
-%         save_target_path = fullfile(save_target_dir, save_target_fname);
-%         save(save_target_path, ...
-%             "snapshot_times", ...
-%             "wfn", ...
-%             "expected_E", ...
-%             "gamma_sweep", ...
-%             "global_min_val", ...
-%             "global_min_loc", ...
-%             "-v7.3" ...
-%         );
     end
 end
 
 
 function parsaveFixedT(experiment_dir, save_target_dir, snapshot_times, wfn, expected_E, global_min_val, global_min_loc)
-    save_target_fname = strcat(experiment_dir, "_simple_T500_", "data.mat");
+    save_target_fname = strcat(experiment_dir, "_QAA_rez128_T10.mat");
     save_target_path = fullfile(save_target_dir, save_target_fname);
     save(save_target_path, ...
         "snapshot_times", ...
