@@ -119,7 +119,7 @@ for d in dirs:
 ####### # CHD
         counter = 0
         for i in range(NUM_SHOTS):
-            point = data["CHD"]["positions"][0][0][-1, :]
+            point = data["CHD"]["positions"][i][0][-1, :]
 
             if is_point_within_radius(point, global_min_locs[d], radius):
                 counter += 1
@@ -188,10 +188,10 @@ def relabel_index_headers(val):
     return val
 
 
-# colored_table = prob_df.style.apply(highlight_top_k, axis=1).export()
+colored_table = prob_df.style.apply(highlight_top_k, axis=1).export()
 
 # Dump the table to the console
-# print(prob_df.rename(lambda idx: idx.replace('_',' ')).style.format(relabel_data).use(colored_table).to_latex(column_format="l|cccccc"))
+print(prob_df.rename(lambda idx: idx.replace('_',' ')).style.format(relabel_data).use(colored_table).to_latex(column_format="l|cccc"))
 # print(prob_df.rename(lambda idx: idx.replace('_',' ')).to_markdown(tablefmt="grid"))
 
 
