@@ -100,7 +100,7 @@ if SHOULD_SAVE:
     if not os.path.exists("figures"):
         os.mkdir("figures")
 
-    fname = "QPMegaplotThin"
+    fname = "QP_TTS"
     for ext in ['.svg', '.png']:
         plt.savefig(f"figures/{fname+ext}")
 
