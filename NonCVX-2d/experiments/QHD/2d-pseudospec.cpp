@@ -10,19 +10,22 @@
 
 #define I complex<double>(0, 1)
 
-using namespace std;
 using namespace std::filesystem;
 using namespace Eigen;
 
-const int RANK = 2;
-const int CAPTURE_FRAME_EVERY = 500;
+// For the first NUMBER_OF_ITERATIONS_A iterations, save wave function every CAPTURE_FRAME_EVERY_A iterations.
+// Afterwards, save the wave function every CAPTURE_FRAME_EVERY_B iterations.
+const int NUMBER_OF_ITERATIONS_A = 1000;
+const int CAPTURE_FRAME_EVERY_A = 100; 
+const int CAPTURE_FRAME_EVERY_B = 500;
 const int NUMBER_OF_FUNCTIONS = 22;
+const int RANK = 2;
 const string HOME_DIR = getenv("HOME");
 const string DATA_DIR = path(HOME_DIR).append("QHD_DATA");
 const string NONCVX_DIR = path(DATA_DIR).append("NonCVX-2d");
 
 double t_dep_1(const double &t) {
-    return 2 / (0.001 + t * t * t);
+    return 2 / (1e-3 + t * t * t);
 }
 double t_dep_2(const double &t) {
     return 2 * t * t * t;
@@ -86,7 +89,7 @@ void hadamard_product(ArrayXXcd &A, ArrayXXcd &B, ArrayXXcd &out, const int &N) 
     }
 }
 
-void pseudospec(const ArrayXXd &V, const double &L, const int &N, ArrayXXcd &psi,
+void pseudospec(const ArrayXXd &V, const double &L, const int &num_cells, ArrayXXcd &psi,
                 const double &dt, const double &T, const string function_name)
 {
     /*
@@ -96,32 +99,48 @@ void pseudospec(const ArrayXXd &V, const double &L, const int &N, ArrayXXcd &psi
     */
 
     string function_dir = path(NONCVX_DIR).append(function_name);
-    string wfn_dir = path(function_dir).append(function_name + "_QHD_WFN");
+    string wfn_dir = path(function_dir).append(function_name + "_QHD" + to_string(num_cells) + "_WFN");
     if (!filesystem::exists(function_dir)) {
         filesystem::create_directory(function_dir);
     }
     if (!filesystem::exists(wfn_dir)) {
         filesystem::create_directory(wfn_dir);
     }
-    // Save wavefunction at time 0
-    write_complex_to_npy(psi, path(wfn_dir).append("psi_0.npy"));
+
 
     int num_steps = T / dt;
     double t = 0;
-    ArrayXd expected_potential(num_steps);
-    ArrayXXd kinetic_operator(N, N);
-    ArrayXXcd u(N, N);
-    ArrayXXcd psi_new(N, N);
-    ArrayXXcd temp(N, N);
+    ArrayXd snapshot_times(num_steps+1);
+    ArrayXd expected_potential(num_steps+1);
+    ArrayXXd kinetic_operator(num_cells, num_cells);
+    ArrayXXcd u(num_cells, num_cells);
+    ArrayXXcd psi_new(num_cells, num_cells);
+    ArrayXXcd temp(num_cells, num_cells);
     int i, j;
-    initialize_kinetic_operator(kinetic_operator, L, N);
-
     int n[RANK];
     for (i = 0; i < RANK; i++)
     {
-        n[i] = N;
+        n[i] = num_cells;
     }
+    
+    // Save wavefunction at time 0
+    write_complex_to_npy(psi, path(wfn_dir).append("psi_0.npy"));
 
+    // Initialize kinetic operator
+    initialize_kinetic_operator(kinetic_operator, L, num_cells);
+
+    // Compute expected potential
+    double expected_value = 0;
+    #pragma omp parallel for private(i,j) reduction(+: expected_value)
+    for (i = 0; i < num_cells; i++) {
+        for (j = 0; j < num_cells; j++) {
+            expected_value += (psi(i,j) * conj(psi(i,j))).real() * V(i,j);
+        }
+    }
+    snapshot_times(0) = t;
+    expected_potential(0) = expected_value;
+
+    // Setup for fftw
     fftw_complex *in;
     fftw_complex *out;
     fftw_plan p1;
@@ -144,68 +163,76 @@ void pseudospec(const ArrayXXd &V, const double &L, const int &N, ArrayXXcd &psi
     out = (fftw_complex *)&psi_new(0, 0);
     p2 = fftw_plan_dft(RANK, n, in, out, FFTW_BACKWARD, FFTW_MEASURE);
 
+    // Timing
     double time1 = 0, time2 = 0;
     double start, end;
     start = omp_get_wtime();
-    for (int step = 0; step < num_steps; step++) {
+    for (int step = 1; step <= num_steps; step++) {
 
         #pragma omp parallel for private(i,j) schedule(static)
-        for (i = 0; i < N; i++) {
-            for (j = 0; j < N; j++) {
+        for (i = 0; i < num_cells; i++) {
+            for (j = 0; j < num_cells; j++) {
                 temp(i,j) = exp(- I * dt * t_dep_2(t) * V(i,j));
             }
         }
-        hadamard_product(temp, psi, u, N);
+        hadamard_product(temp, psi, u, num_cells);
 
         fftw_execute(p1);
 
         #pragma omp parallel for private(i,j) schedule(static)
-        for (i = 0; i < N; i++) {
-            for (j = 0; j < N; j++) {
+        for (i = 0; i < num_cells; i++) {
+            for (j = 0; j < num_cells; j++) {
                 temp(i,j) = exp(- I * dt * t_dep_1(t) * kinetic_operator(i,j));
             }
         }
-        hadamard_product(temp, u, u, N);
+        hadamard_product(temp, u, u, num_cells);
 
         // ifft2
         fftw_execute(p2);
 
         // Normalize
-        double k = pow(N, RANK);
+        double k = pow(num_cells, RANK);
         #pragma omp parallel for private(i,j) schedule(static)
-        for (i = 0; i < N; i++) {
-            for (j = 0; j < N; j++) {
+        for (i = 0; i < num_cells; i++) {
+            for (j = 0; j < num_cells; j++) {
                 psi(i,j) = psi_new(i,j) / k;
             }
         }
 
-        t += dt;
+        t = step * dt;
 
-        if (step > 0 && step % CAPTURE_FRAME_EVERY == 0) {
+        if ((step <= NUMBER_OF_ITERATIONS_A) && (step % CAPTURE_FRAME_EVERY_A == 0) || 
+            (step > NUMBER_OF_ITERATIONS_A) && (step % CAPTURE_FRAME_EVERY_B == 0)) {
             string str_t = to_string((int) (t * 10));
             string filename = "psi_" + str_t + "e-01.npy";
             write_complex_to_npy(psi, path(wfn_dir).append(filename));
-        }
+        } 
 
         // Compute expected potential
-        double expected_value = 0;
+        expected_value = 0;
         #pragma omp parallel for private(i,j) reduction(+: expected_value)
-        for (i = 0; i < N; i++) {
-            for (j = 0; j < N; j++) {
+        for (i = 0; i < num_cells; i++) {
+            for (j = 0; j < num_cells; j++) {
                 expected_value += (psi(i,j) * conj(psi(i,j))).real() * V(i,j);
             }
         }
+        snapshot_times(step) = t;
         expected_potential(step) = expected_value;
 
-        printf("\r%d / %d", step + 1, num_steps);
+        printf("\r%d / %d", step, num_steps);
         fflush(stdout);
     }
     end = omp_get_wtime();
     printf("\n");
     printf("Pseudospectral integrator runtime = %.5f s\n", end - start);
     
+    // Save snapshot times
+    string snapshot_times_filename = "snapshot_times_" + function_name + ".npy";
+    write_real_to_npy_1d(snapshot_times, path(function_dir).append(snapshot_times_filename));
+    // Save expected potential
     string expected_potential_filename = "expected_potential_" + function_name + ".npy";
     write_real_to_npy_1d(expected_potential, path(function_dir).append(expected_potential_filename));
+    // Cleanup for fftw
     fftw_destroy_plan(p1);
     fftw_destroy_plan(p2);
     fftw_cleanup_threads();
