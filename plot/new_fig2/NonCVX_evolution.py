@@ -192,4 +192,4 @@ for col in range(n_plots):
         if row == 3:
             ax.set_xlabel(f"t={snapshot_time}", fontsize=TEXT_FONT)
 
-plt.savefig('2d_evolution.png')
+plt.savefig('./figures/2d_evolution.svg')
