@@ -6,12 +6,12 @@ from scipy.sparse.linalg import eigsh
 import os
 from os import listdir
 from os.path import isfile, isdir, join
-
 import time
+import sys
 
 
-# Please change the data directory and benchmark name
-DATA_DIR = "/Users/lengjiaqi/QHD_DATA/NonCVX-2d"
+sys.path.append(os.path.abspath('../../'))
+from config import *
 
 
 
@@ -37,12 +37,13 @@ def grid_points_within_radius(center, radius, grid_steps):
 
 
 # import instance info
-instance = "styblinski_tang"
-instance_fn = lambda x1,x2: 1/78 * 0.5 * (x1**4 - 16*x1**2 + 5*x1 + x2**4 - 16*x2**2 + 5*x2)
-instance_bounds = [-5, 5]
-instance_global_min = [-2.9035, -2.9035]
-gamma = 0.01
-QHD_WFN_DIR = join(DATA_DIR, f"{instance}/{instance}_QHD_WFN")
+instance = "levy"
+DATA_DIR = join(DATA_DIR_2D, f"{instance}")
+QHD_WFN_DIR = join(DATA_DIR, f"{instance}_QHD256_WFN")
+w = lambda v: 1 + (1/4)*(v - 1)
+levy_fn = lambda x1, x2: sin(pi * w(x1))**2 + (w(x1) - 1)**2 * (1 + 10*sin(pi*w(x1) + 1)**2) + (w(x2) - 1)**2 * (1 + sin(2*pi*w(x2))**2)
+instance_bounds = [-10, 10]
+instance_global_min = [1, 1]
 
 # experiment setup params
 max_energy_level = 10
@@ -87,33 +88,43 @@ H_U = diags(normalized_V, 0)
 #-----------------------------------------------------
 #Step 2: Retrieve QHD wave functions & probability
 #-----------------------------------------------------
+nbhd_idcs = grid_points_within_radius(global_min_locs, radius, steps)
+nbhd_locs = np.zeros((steps * steps,1))
+nbhd_locs[nbhd_idcs] = 1
+nbhd_locs = np.reshape(nbhd_locs, (steps,steps), order='F')
+
 if isdir(QHD_WFN_DIR) == False:
-    print(f"The data path for function {instance} is not found.")
+    print(f"The WFN data path for function {instance} is not found.")
 else:
-    wfn_files = os.listdir(QHD_WFN_DIR)
-    wfn_files.sort()
-    num_frames = len(wfn_files)
-    qhd_prob_in_nbhd = np.zeros(num_frames)
-    nbhd_idcs = grid_points_within_radius(global_min_locs, radius, steps)
-    nbhd_locs = np.zeros((steps * steps,1))
-    nbhd_locs[nbhd_idcs] = 1
-    nbhd_locs = np.reshape(nbhd_locs, (steps,steps), order='F')
-
-    for i in range(num_frames):
-        psi = np.load(os.path.join(QHD_WFN_DIR, wfn_files[i]))
+    snapshot_idx_1 = np.arange(0,10,1)
+    snapshot_idx_2 = np.arange(10, 105, 5)
+    snapshot_idx = np.concatenate((snapshot_idx_1,snapshot_idx_2),axis=0)
+    num_frames = len(snapshot_idx)
+    snapshot_times = 0.1 * snapshot_idx
+    qhd_prob_in_nbhd = []
+    for idx in snapshot_idx:
+        if idx == 0:
+            wfn_fname = f"psi_0.npy"
+        else:
+            wfn_fname = f"psi_{idx}e-01.npy"
+        psi = np.load(os.path.join(QHD_WFN_DIR, wfn_fname))
         prob_nbhd = (nbhd_locs * ((psi * psi.conj()).real)).sum()
-        qhd_prob_in_nbhd[i] = prob_nbhd
-
+        qhd_prob_in_nbhd.append(prob_nbhd)
 
 #-----------------------------------------------------
 #Step 3: Spectrum decomposition
 #-----------------------------------------------------
 prob_spec = np.zeros((max_energy_level, num_frames))
 for j in range(num_frames):
-    psi = np.load(os.path.join(QHD_WFN_DIR, wfn_files[j])).flatten('F')
-    t = j * 2.5
-    tdep1 = 1/(1 + gamma*t**2)
-    tdep2 = 1 + gamma*t**2
+    idx = snapshot_idx[j]
+    if idx == 0:
+        wfn_fname = f"psi_0.npy"
+    else:
+        wfn_fname = f"psi_{idx}e-01.npy"
+    psi = np.load(os.path.join(QHD_WFN_DIR, wfn_fname)).flatten('F')
+    t = snapshot_times[j]
+    tdep1 = 2/(1e-3 + t**3)
+    tdep2 = 2*t**3
     H = tdep1 * H_T + tdep2 * H_U
 
     start = time.time()
