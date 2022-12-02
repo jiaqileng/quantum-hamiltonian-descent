@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
+if not os.path.exists("figures"):
+    os.mkdir("figures")
+
 sns.set_theme()
 
 plt.rc('axes', labelsize=6, labelpad=2)
@@ -23,7 +26,6 @@ for k, sparsity in enumerate(sparsities):
     dimensions = np.arange(sparsity, dim_high[k], dim_step)
 
     gurobi_runtime = np.load(os.path.join("runtime_data", f"gurobi_runtime_sparsity_{sparsity}.npy"))
-
     plt.plot(dimensions, np.mean(gurobi_runtime, axis=1), 'o-', markersize=2, label=f"Sparsity {sparsity}")
 
 plt.legend(facecolor="white")
@@ -33,8 +35,25 @@ plt.ylabel("Runtime (s)")
 plt.yscale("log")
 plt.tight_layout()
 
-if not os.path.exists("figures"):
-    os.mkdir("figures")
 fname = "gurobi_runtime"
+for ext in ['.eps', '.svg', '.png']:
+    plt.savefig(f"figures/{fname+ext}", dpi=300)
+    
+plt.cla()
+
+for k, sparsity in enumerate(sparsities):
+    dimensions = np.arange(sparsity, dim_high[k], dim_step)
+
+    gurobi_node_count = np.load(os.path.join("runtime_data", f"gurobi_node_count_sparsity_{sparsity}.npy"))
+    plt.plot(dimensions, np.mean(gurobi_node_count, axis=1), 'o-', markersize=2, label=f"Sparsity {sparsity}")
+    
+plt.legend(facecolor="white")
+plt.title("Average Nodes Explored vs Dimension", fontsize=8)
+plt.xlabel("Dimension")
+plt.ylabel("Nodes Explored")
+plt.yscale("log")
+plt.tight_layout()
+
+fname = "gurobi_nodes_explored"
 for ext in ['.eps', '.svg', '.png']:
     plt.savefig(f"figures/{fname+ext}", dpi=300)
