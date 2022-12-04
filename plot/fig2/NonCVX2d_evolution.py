@@ -196,5 +196,5 @@ for col in range(n_plots):
             ax.set_xlabel(f"t={snapshot_time}", fontsize=TEXT_FONT)
 
 plt.savefig('./figures/Evolution2D.png', dpi=300)
-plt.savefig('./figures/Evolution2D.eps')
+#plt.savefig('./figures/Evolution2D.eps')
 plt.show()

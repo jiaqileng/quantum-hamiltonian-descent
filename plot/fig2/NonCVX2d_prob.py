@@ -314,5 +314,5 @@ ax[0].tick_params(axis='y', which='major', labelsize=YTICKLABEL_SIZE)
 plt.legend(bbox_to_anchor=(1, 1), prop={'size': LEGEND_SIZE})
 
 plt.savefig("./figures/SuccessProb2D.png", bbox_inches='tight', dpi=300)
-plt.savefig("./figures/SuccessProb2D.svg", bbox_inches='tight')
+#plt.savefig("./figures/SuccessProb2D.svg", bbox_inches='tight')
 plt.show()
