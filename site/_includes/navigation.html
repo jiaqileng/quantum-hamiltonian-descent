@@ -1,0 +1,12 @@
+<div id="nav-title">
+  Quantum Hamiltonian Descent — QHD
+</div>
+<nav>
+  <div id="nav-links-holder">
+  {% for item in site.data.navigation %}
+    <a href="{{ item.link }}"
+    {% if page.url == item.link %}id="current-link"{% endif %}
+  {% if item.link == "/staff.html" %}style="margin-left:auto; color:var(--dark-gray); background-color:var(--medium-accent); border-radius: 10px;"{% endif %}>{{ item.name }}</a>
+  {% endfor %}
+  </div>
+</nav>

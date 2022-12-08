@@ -1,0 +1,23 @@
+---
+layout: default
+usemathjax: true
+---
+<div class="blog-browser-container">
+    <h1>2D Test Functions</h1>
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    <h2>2D Functions</h2>
+    <h3>Ridges or Valleys</h3>
+    {% include filtercarousel.html targ=site.functions2d filterby='ridgevalley' %}
+    <h3>Basin</h3>
+    {% include filtercarousel.html targ=site.functions2d filterby='basin' %}
+    <h3>Flat</h3>
+    {% include filtercarousel.html targ=site.functions2d filterby='flat' %}
+    <h3>Studded</h3>
+    {% include filtercarousel.html targ=site.functions2d filterby='studded' %}
+    <h3>Simple</h3>
+    {% include filtercarousel.html targ=site.functions2d filterby='simple' %}
+</div>

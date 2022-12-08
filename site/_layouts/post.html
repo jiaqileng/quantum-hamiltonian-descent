@@ -1,0 +1,19 @@
+---
+layout: default
+usemathjax: true
+---
+<div class="post-holder">
+  <h1>{{ page.title }}</h1>
+  <!-- <p>
+    {{ page.date | date_to_string }}
+    {% assign author = site.authors | where: 'short_name', page.author | first %}
+    {% if author %}
+      - <a href="{{ author.url }}">{{ author.name }}</a>
+    {% endif %}
+  </p> -->
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+</div>

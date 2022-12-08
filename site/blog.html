@@ -1,0 +1,18 @@
+---
+title: Details
+---
+<div class="blog-browser-container">
+  <h1>Further Information</h1>
+  <div class="post-content">
+    <p>
+      On this page, you will find links to short-format posts discussing several aspects of QHD or the benchmarking process in further detail.
+    <ul>
+      {% for post in site.posts %}
+        <li>
+          <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+          {{ post.excerpt }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

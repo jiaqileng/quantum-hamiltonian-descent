@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Comparisons</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
+  </head>
+  <body>
+    <div id="nav-content-footer">
+      <div id="nav-title">
+  Quantum Hamiltonian Descent — QHD
+</div>
+<nav>
+  <div id="nav-links-holder">
+  
+    <a href="/"
+    
+  >Home</a>
+  
+    <a href="/nonconvex2d.html"
+    
+  >Nonconvex 2D</a>
+  
+    <a href="/qp.html"
+    
+  >Quadratic Programming</a>
+  
+    <a href="/blog.html"
+    
+  >Details</a>
+  
+    <a href="/staff.html"
+    
+  style="margin-left:auto; color:var(--dark-gray); background-color:var(--medium-accent); border-radius: 10px;">About Us</a>
+  
+  </div>
+</nav>
+
+      <div id="page-content">
+        <div class="post-holder">
+  <h1>Comparisons</h1>
+  <!-- <p>
+    12 Apr 2022
+    
+    
+  </p> -->
+
+  <div class="post-content">
+    <p>For comparison with other methods, we can examine both the path that these metrics follow and their final values.</p>
+
+<h2 id="algorithms">Algorithms</h2>
+
+<ul>
+  <li>
+    <p><a href="https://en.wikipedia.org/wiki/Adiabatic_quantum_computation"><strong>Quantum Adiabatic Algorithm</strong></a>:
+The standard implementation of the quantum adiabatic algorithm. For the 2D benchmark, the system is simulated by a Leapfrog integrator to the same simulated time as the pseudospectral method is evolved for QHD. For the QP benchmark, the annealing for QAA is carried out on the D-Wave Advantage 6.1 device. See also <a href="">https://www.cs.umd.edu/~amchilds/qa/qa.pdf#chapter.29</a></p>
+  </li>
+  <li>
+    <p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent"><strong>(Stochastic) Gradient Descent</strong></a>:
+The functions we have are continuous and differentiable, so we have exact gradient information. We use the <a href="https://arxiv.org/pdf/2004.06977.pdf">stochastic differential equation formulation of SGD</a> to numerically simulate SGD in the objective functions.</p>
+  </li>
+  <li>
+    <p>[<strong>Nesterov’s Accelerated Gradient Descent</strong>]:
+We use the standard form of NAGD.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/coin-or/Ipopt"><strong>Interior Point OPTimizer (IPOPT)</strong></a> (COIN-OR):
+Uses the interior point method to search within the defined bounds.</p>
+  </li>
+  <li>
+    <p><a href="https://ccom.ucsd.edu/~optimizers/solvers/snopt/"><strong>Sparse Nonlinear OPTimizer (SNOPT)</strong></a> (Center for Computational Mathematics at UCSD):
+Uses a sparse sequential quadratic programming algorithm. It is appropriate for both linear and non-linear problems as well as non-convex problems.</p>
+  </li>
+  <li>
+    <p><a href="https://www.mathworks.com/help/optim/ug/fmincon.html"><strong>MATLAB <code class="language-plaintext highlighter-rouge">fmincon</code></strong></a>:
+MATLAB’s nonlinear programming solver. We use it in its sequential quadratic programming mode.</p>
+  </li>
+  <li>
+    <p><a href="https://docs.scipy.org/doc/scipy/reference/optimize.minimize-tnc.html"><strong>Truncated Newton Method</strong></a>: Offered as a method built in to Scipy as <code class="language-plaintext highlighter-rouge">scipy.optimize.minimize(method='TNC')</code>.</p>
+  </li>
+  <li>
+    <p><a href="https://www.mathworks.com/help/optim/ug/fmincon.html"><strong>Quadratically Constrained Quadratic Programming (QCQP)</strong></a>:
+https://stanford.edu/~boyd/papers/qcqp.html</p>
+
+    <!-- - [**Augmented Lagrangian Method**](https://en.wikipedia.org/wiki/Augmented_Lagrangian_method):
+  A more advanced version of the penalty method for enforcing constraints. It uses a scheduled multiplier and an adaptive multiplier together. This allows the multipliers to stay lower through the whole process, giving the method increased stability over a simple penalty method.
+ -->
+  </li>
+</ul>
+
+  </div>
+
+</div>
+
+      </div>
+      <footer>Copyright 2022 Wu Group</footer>
+
+    </div>
+  </body>
+</html>

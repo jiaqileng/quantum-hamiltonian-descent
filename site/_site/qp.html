@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
+  </head>
+  <body>
+    <div id="nav-content-footer">
+      <div id="nav-title">
+  Quantum Hamiltonian Descent — QHD
+</div>
+<nav>
+  <div id="nav-links-holder">
+  
+    <a href="/"
+    
+  >Home</a>
+  
+    <a href="/nonconvex2d.html"
+    
+  >Nonconvex 2D</a>
+  
+    <a href="/qp.html"
+    id="current-link"
+  >Quadratic Programming</a>
+  
+    <a href="/blog.html"
+    
+  >Details</a>
+  
+    <a href="/staff.html"
+    
+  style="margin-left:auto; color:var(--dark-gray); background-color:var(--medium-accent); border-radius: 10px;">About Us</a>
+  
+  </div>
+</nav>
+
+      <div id="page-content">
+        <div class="blog-browser-container">
+  <h1>Quadratic Programming</h1>
+  <div class="post-content">
+    <p>In this benchmark test, we compare QHD run on the D-Wave Advantage 6.1 machine with the standard quantum adiabatic algorithm, UCSD’s SNOPT, COIN-OR’s IPOPT, MATLAB’s <code class="language-plaintext highlighter-rouge">fmincon</code>, QCQP, and Scipy’s truncated Newton method on three sets of randomly generated pentadiagonal quadratic programming problems. There are fifty problem instances per set, with sets at 50-, 60-, and 75-dimensional problems, and the metric of comparison is time to solution.</p>
+
+<h2 id="qhd-for-quadratic-programming">QHD for Quadratic Programming</h2>
+
+<p>To begin, let’s review the problem at hand.</p>
+
+<h3 id="quadratic-programs-problem-structure-and-generation">Quadratic programs: problem structure and generation</h3>
+
+<p>The goal of <a href="https://en.wikipedia.org/wiki/Quadratic_programming">quadratic programming</a> is to find the unit vector that minimizes</p>
+<blockquote>
+  <p>\(\min \frac{1}{2} x^T Q x + b^T x \ \ \text{s.t.} \ \ Q_c x \leq b_c\).</p>
+</blockquote>
+
+<p>We adjust this goal to be</p>
+<blockquote>
+  <p>\(\min \frac{1}{2} x^T Q x + b^T x \ \ \text{s.t.} \ \ Q_c x = b_c \ \ ,\ \ 0 \leq x \leq 1\).</p>
+</blockquote>
+
+<p>For our experiments, we target problems with the box constraint, albeit without the linear equality constraint. The reason for this is that enforcing of the equality constraint via a penalty term with a fixed penalty coefficient degrades performance.</p>
+
+<p>We randomly generate instances of dimension 50, 60, 75 and compare the performance of multiple methods and solvers. Due to the limited connectivity and number of qubits, the maximum dimension of the problems we are able to embed on the D-Wave QPU is roughly 75. To create the problems we uniformly sample entries for the Hessian matrices on \([0,1]\) with pentadiagonal structure in order to fix a maximum sparsity. This makes a minor embedding possible so that the problem can be run on the D-Wave QPU. While we do not require any equality constraints, we do enforce the box constraint \(x \in [0,1]^d\).</p>
+
+<h3 id="comparisons">Comparisons</h3>
+<p>For each of problem sets, we compare the performance of six methods (see the Details section, ‘Comparisons’): QHD on D-Wave, QAA on D-Wave, IPOPT, SNOPT, MATLAB’s <code class="language-plaintext highlighter-rouge">fmincon</code> with SQP, QCQP, and a truncated Newton method.
+For each instance and method, we perform 1000 trials or shots.
+For the classical methods, the initial points are drawn uniformly at random from \([0,1]^d\).</p>
+
+<figure>
+  <img src="/assets/images/QPComparison.png" alt="QP Comparisons" style="display: block; margin-left: auto; margin-right: auto; width: 90%" />
+  <figcaption>
+    Experiment results for quadratic programming problems. Box plots of the time-to-solution (TTS) of selected quantum/classical solvers, gathered from four randomly generated quadratic programming benchmarks (A: 5-dimensional, B: 50-dimensional, C: 60-dimensional, D: 75-dimensional). The left and right boundaries of a box show the lower and upper quartiles of the TTS data measured by applying the corresponding solver to all instances in the benchmark, while the whiskers extend to show the rest of the TTS distribution. The median of the TTS distribution is shown as a black vertical line in the box. In each panel, the median line of the best solver extends to show the comparison with all other solvers.
+  </figcaption>
+</figure>
+
+  </div>
+</div>
+
+      </div>
+      <footer>Copyright 2022 Wu Group</footer>
+
+    </div>
+  </body>
+</html>
