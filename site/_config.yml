@@ -1,5 +1,3 @@
-url: http://localhost:4000
-
 collections:
   authors:
     output: true
