@@ -26,7 +26,7 @@ For the classical methods, the initial points are drawn uniformly at random from
 
 <figure>
   <img
-    src="assets/images/QPComparison.png"
+    src="{{ site.url }}{{ site.baseurl }}/assets/images/QPComparison.png"
     alt="QP Comparisons"
     style="display: block; margin-left: auto; margin-right: auto; width: 90%"
   />

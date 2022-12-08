@@ -1,7 +1,7 @@
 <div class="carousel">
   {% for fn in include.targ %}
     {% if fn.feature == include.filterby %}
-        <a href="{{ fn.url }}">
+        <a href="{{ site.baseurl }}{{ fn.url }}">
           <div class="fn-card">
             <h3>{{ fn.name }}</h3>
             <img class="fn-thumb" src="assets/images/thumbnails/{{ fn.short_name }}_thumb.png" alt="{{ fn.short_name }} preview">
