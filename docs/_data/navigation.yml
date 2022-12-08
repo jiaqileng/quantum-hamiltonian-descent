@@ -1,12 +1,12 @@
 - name: Home
-  link: /quantum-hamiltonian-descent/
+  link: /
 # - name: Executive Summary
 #   link: /paper.html
 - name: Nonconvex 2D
-  link: /quantum-hamiltonian-descent/nonconvex2d.html
+  link: /nonconvex2d.html
 - name: Quadratic Programming
-  link: /quantum-hamiltonian-descent/qp.html
+  link: /qp.html
 - name: Details
-  link: /quantum-hamiltonian-descent/blog.html
+  link: /blog.html
 - name: About Us
-  link: /quantum-hamiltonian-descent/staff.html
+  link: /staff.html

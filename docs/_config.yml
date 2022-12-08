@@ -1,4 +1,4 @@
-url: "https://jiaqileng.github.io/quantum-hamiltonian-descent/"
+baseurl: "/quantum-hamiltonian-descent"
 
 collections:
   authors:
