@@ -7,8 +7,8 @@
   {% assign fn_plot_meta = include.fn | append: "-fnmeta.csv" %}
 
   plot_fn = async function() {
-    var target_url = "{{ site.url }}{{ site.baseurl }}/assets/plotdata/{{ fn_plot_data }}"
-    var meta_url = "{{ site.url }}{{ site.baseurl }}/assets/plotdata/{{ fn_plot_meta }}";
+    var target_url = "{{ site.baseurl }}/assets/plotdata/{{ fn_plot_data }}"
+    var meta_url = "{{ site.baseurl }}/assets/plotdata/{{ fn_plot_meta }}";
 
     meta_response = await d3.csv(meta_url);
     meta_dict = meta_response[0];

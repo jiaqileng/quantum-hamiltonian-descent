@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Sumofsquares</title>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/quantum-hamiltonian-descent/assets/css/styles.css">
     <script type="text/javascript" id="MathJax-script" async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
     </script>
@@ -18,25 +18,25 @@
 <nav>
   <div id="nav-links-holder">
   
-    <a href="/"
+    <a href="/quantum-hamiltonian-descent/"
     
-  >Home</a>
+    >Home</a>
   
-    <a href="/nonconvex2d.html"
+    <a href="/quantum-hamiltonian-descent/nonconvex2d.html"
     
-  >Nonconvex 2D</a>
+    >Nonconvex 2D</a>
   
-    <a href="/qp.html"
+    <a href="/quantum-hamiltonian-descent/qp.html"
     
-  >Quadratic Programming</a>
+    >Quadratic Programming</a>
   
-    <a href="/blog.html"
+    <a href="/quantum-hamiltonian-descent/blog.html"
     
-  >Details</a>
+    >Details</a>
   
-    <a href="/staff.html"
+    <a href="/quantum-hamiltonian-descent/staff.html"
     
-  style="margin-left:auto; color:var(--dark-gray); background-color:var(--medium-accent); border-radius: 10px;">About Us</a>
+    style="margin-left:auto; color:var(--dark-gray); background-color:var(--medium-accent); border-radius: 10px;">About Us</a>
   
   </div>
 </nav>
@@ -63,8 +63,8 @@
   
 
   plot_fn = async function() {
-    var target_url = "http://localhost:4000/assets/plotdata/sumofsquares-fn.csv"
-    var meta_url = "http://localhost:4000/assets/plotdata/sumofsquares-fnmeta.csv";
+    var target_url = "/quantum-hamiltonian-descent/assets/plotdata/sumofsquares-fn.csv"
+    var meta_url = "/quantum-hamiltonian-descent/assets/plotdata/sumofsquares-fnmeta.csv";
 
     meta_response = await d3.csv(meta_url);
     meta_dict = meta_response[0];
@@ -155,8 +155,8 @@
   
 
   plot_prob = async function() {
-    var target_url = "http://localhost:4000/assets/plotdata/sumofsquares.csv"
-    var meta_url = "http://localhost:4000/assets/plotdata/sumofsquares-meta.csv";
+    var target_url = "/quantum-hamiltonian-descent/assets/plotdata/sumofsquares.csv"
+    var meta_url = "/quantum-hamiltonian-descent/assets/plotdata/sumofsquares-meta.csv";
 
     meta_response = await d3.csv(meta_url);
     meta_dict = meta_response[0];
@@ -361,175 +361,174 @@
   <div class="plots-2d">
     <div class="method-comparison-plot">
       <figure>
-        <img src="/assets/images/scatterplots/sumofsquares_scatter.png" alt="Comparison of optimization methods on sumofsquares" width="620" height="570">
+        <img src="/quantum-hamiltonian-descent/assets/images/scatterplots/sumofsquares_scatter.png" alt="Comparison of optimization methods on sumofsquares" width="620" height="570">
         <figcaption></figcaption>
       </figure>
     </div>
 
     <div class="three-phase-plot">
       <figure>
-        <img src="/assets/images/threephaseplots/sumofsquares_three_phase.png" alt="3-Phase Diagrams" width="1200" height="650">
+        <img src="/quantum-hamiltonian-descent/assets/images/threephaseplots/sumofsquares_three_phase.png" alt="3-Phase Diagrams" width="1200" height="650">
         <figcaption>Description of subplots</figcaption>
       </figure>
     </div>
-
   </div>
 
   <div class="carousel2d">
     <h2>2D Functions</h2>
     <div class="carousel">
   
-    <a href="/functions2d/ackley.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/ackley.html">
       <div class="fn-card">
         <h3>Ackley</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/ackley_thumb.png" alt="ackley preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/ackley_thumb.png" alt="ackley preview">
       </div>
     </a>
   
-    <a href="/functions2d/ackley2.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/ackley2.html">
       <div class="fn-card">
         <h3>Ackley 2</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/ackley2_thumb.png" alt="ackley2 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/ackley2_thumb.png" alt="ackley2 preview">
       </div>
     </a>
   
-    <a href="/functions2d/alpine1.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/alpine1.html">
       <div class="fn-card">
         <h3>Alpine 1</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/alpine1_thumb.png" alt="alpine1 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/alpine1_thumb.png" alt="alpine1 preview">
       </div>
     </a>
   
-    <a href="/functions2d/alpine2.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/alpine2.html">
       <div class="fn-card">
         <h3>Alpine 2</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/alpine2_thumb.png" alt="alpine2 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/alpine2_thumb.png" alt="alpine2 preview">
       </div>
     </a>
   
-    <a href="/functions2d/bohachevsky2.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/bohachevsky2.html">
       <div class="fn-card">
         <h3>Bohachevsky 2</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/bohachevsky2_thumb.png" alt="bohachevsky2 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/bohachevsky2_thumb.png" alt="bohachevsky2 preview">
       </div>
     </a>
   
-    <a href="/functions2d/camel3.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/camel3.html">
       <div class="fn-card">
         <h3>Camel 3</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/camel3_thumb.png" alt="camel3 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/camel3_thumb.png" alt="camel3 preview">
       </div>
     </a>
   
-    <a href="/functions2d/csendes.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/csendes.html">
       <div class="fn-card">
         <h3>Csendes</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/csendes_thumb.png" alt="csendes preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/csendes_thumb.png" alt="csendes preview">
       </div>
     </a>
   
-    <a href="/functions2d/defl_corr_spring.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/defl_corr_spring.html">
       <div class="fn-card">
         <h3>Deflected Corrugated Spring</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/defl_corr_spring_thumb.png" alt="defl_corr_spring preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/defl_corr_spring_thumb.png" alt="defl_corr_spring preview">
       </div>
     </a>
   
-    <a href="/functions2d/dropwave.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/dropwave.html">
       <div class="fn-card">
         <h3>Dropwave</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/dropwave_thumb.png" alt="dropwave preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/dropwave_thumb.png" alt="dropwave preview">
       </div>
     </a>
   
-    <a href="/functions2d/easom.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/easom.html">
       <div class="fn-card">
         <h3>Easom</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/easom_thumb.png" alt="easom preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/easom_thumb.png" alt="easom preview">
       </div>
     </a>
   
-    <a href="/functions2d/griewank.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/griewank.html">
       <div class="fn-card">
         <h3>Griewank</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/griewank_thumb.png" alt="griewank preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/griewank_thumb.png" alt="griewank preview">
       </div>
     </a>
   
-    <a href="/functions2d/holder.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/holder.html">
       <div class="fn-card">
         <h3>Holder Table</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/holder_thumb.png" alt="holder preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/holder_thumb.png" alt="holder preview">
       </div>
     </a>
   
-    <a href="/functions2d/hosaki.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/hosaki.html">
       <div class="fn-card">
         <h3>Hosaki</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/hosaki_thumb.png" alt="hosaki preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/hosaki_thumb.png" alt="hosaki preview">
       </div>
     </a>
   
-    <a href="/functions2d/levy.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/levy.html">
       <div class="fn-card">
         <h3>Levy</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/levy_thumb.png" alt="levy preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/levy_thumb.png" alt="levy preview">
       </div>
     </a>
   
-    <a href="/functions2d/levy13.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/levy13.html">
       <div class="fn-card">
         <h3>Levy 13</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/levy13_thumb.png" alt="levy13 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/levy13_thumb.png" alt="levy13 preview">
       </div>
     </a>
   
-    <a href="/functions2d/michalewicz.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/michalewicz.html">
       <div class="fn-card">
         <h3>Michalewicz</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/michalewicz_thumb.png" alt="michalewicz preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/michalewicz_thumb.png" alt="michalewicz preview">
       </div>
     </a>
   
-    <a href="/functions2d/rastrigin.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/rastrigin.html">
       <div class="fn-card">
         <h3>Rastrigin</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/rastrigin_thumb.png" alt="rastrigin preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/rastrigin_thumb.png" alt="rastrigin preview">
       </div>
     </a>
   
-    <a href="/functions2d/rosenbrock.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/rosenbrock.html">
       <div class="fn-card">
         <h3>Rosenbrock</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/rosenbrock_thumb.png" alt="rosenbrock preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/rosenbrock_thumb.png" alt="rosenbrock preview">
       </div>
     </a>
   
-    <a href="/functions2d/shubert.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/shubert.html">
       <div class="fn-card">
         <h3>Shubert</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/shubert_thumb.png" alt="shubert preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/shubert_thumb.png" alt="shubert preview">
       </div>
     </a>
   
-    <a href="/functions2d/styblinski_tang.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/styblinski_tang.html">
       <div class="fn-card">
         <h3>Styblinski-Tang</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/styblinski_tang_thumb.png" alt="styblinski_tang preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/styblinski_tang_thumb.png" alt="styblinski_tang preview">
       </div>
     </a>
   
-    <a href="/functions2d/sumofsquares.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/sumofsquares.html">
       <div class="fn-card">
         <h3>Sum of Squares</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/sumofsquares_thumb.png" alt="sumofsquares preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/sumofsquares_thumb.png" alt="sumofsquares preview">
       </div>
     </a>
   
-    <a href="/functions2d/xinsheyang3.html">
+    <a href="/quantum-hamiltonian-descent/functions2d/xinsheyang3.html">
       <div class="fn-card">
         <h3>Xin-She Yang 3</h3>
-        <img class="fn-thumb" src="/assets/images/thumbnails/xinsheyang3_thumb.png" alt="xinsheyang3 preview">
+        <img class="fn-thumb" src="/quantum-hamiltonian-descent/assets/images/thumbnails/xinsheyang3_thumb.png" alt="xinsheyang3 preview">
       </div>
     </a>
   

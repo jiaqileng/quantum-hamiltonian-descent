@@ -26,7 +26,7 @@ Because the potential is diagonal in the position basis and the kinetic operator
 ## Results
 <figure>
   <img
-    src="{{ site.url }}{{ site.baseurl }}/assets/images/ncvxSPtabT10.png"
+    src="{{ site.baseurl }}/assets/images/ncvxSPtabT10.png"
     alt="success probability"
     style="display: block; margin-left: auto; margin-right: auto; width: 70%; max-width: 540px;">
   <figcaption>Table 1: Success rate of being within r=0.1 of the global minimum in a 1x1 domain. There is a random chance of pi/100 or about 3% that the starting point is already in the radius (though the algorithms can move the point out of the radius). Classical probabilities are estimated from sample means using the same 1000 starting points. Quantum probabilities are calculated from exact full state vector simulation. Functions are sorted alphabetically by name.</figcaption>
