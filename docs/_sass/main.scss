@@ -50,8 +50,8 @@ nav {
 #nav-title {
   font-size: 32px;
   padding: 15px 0 0 15px;
-  background-color: var(--medium-main);
-  color: var(--light-gray);
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
 }
 
 #nav-links-holder {
@@ -59,7 +59,7 @@ nav {
   flex-direction: row;
   justify-content: flex-start;
   font-size: 20px;
-  background-color: var(--medium-main);
+  background-color: var(--light-gray);
 }
 
 #nav-links-holder a:link {
@@ -67,23 +67,25 @@ nav {
   margin: 4px 4px;
   padding: 16px 16px 12px 16px;
   text-decoration: none;
-  color: var(--white);
+  color: var(--dark-gray);
 }
 
 #nav-links-holder a:visited {
   text-decoration: none;
-  color: var(--white);
+  color: var(--dark-gray);
 }
 
 #nav-links-holder a:hover {
   text-decoration: none;
   color: var(--white);
+  background-color: var(--medium-main);
   border-radius: 10px 10px;
-  background-color: var(--dark-main);
 }
 
 #current-link {
-  background-color: var(--dark-main);
+  text-decoration: none;
+  background-color: var(--dark-main) !important;
+  color: var(--white) !important;
   border-radius: 10px 10px;
 }
 
