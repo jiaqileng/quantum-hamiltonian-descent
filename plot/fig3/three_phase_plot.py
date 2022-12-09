@@ -69,8 +69,8 @@ fname_to_label = {
 
 
 # Set instance names
-# instances = ["ackley"]
-instances = list(fname_to_label.keys())
+instances = ["ackley"]
+# instances = list(fname_to_label.keys())
 
 for instance in instances:
     qhd_wfn_dir = f"{DATA_DIR_2D}/{instance}/{instance}_QHD256_WFN"
@@ -212,6 +212,6 @@ for instance in instances:
     ax.set_aspect(10/1.3 * RATIOS[2])
 
 
-    plt.savefig(f"figures/test_{instance}_three_phase.png", dpi=300)
+    plt.savefig(f"figures/{instance}_three_phase.png", dpi=300)
     # plt.savefig(f"figures/{instance}_three_phase.svg")
     plt.show()

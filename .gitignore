@@ -60,3 +60,6 @@ octave-workspace
 
 # VSCode settings
 .vscode
+
+# Jekyll Compiled Site
+docs/_site

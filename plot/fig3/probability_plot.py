@@ -98,7 +98,7 @@ for instance in instances:
 
     # QUANTUM PROBABILITY SUBPLOT
     ax = fig.add_subplot(gs[0, :])
-    ax.set_title(f"Quantum Probability Density ({fname_to_label[instance]})", fontsize=TITLE_FONT)
+    ax.set_title(f"A: Quantum Probability Density ({fname_to_label[instance]})", fontsize=TITLE_FONT)
     ax.set_facecolor("white")
     ax.set_xticks([])
     ax.set_yticks([])
@@ -131,7 +131,7 @@ for instance in instances:
 
     # PROBABILITY SPECTRUM SUBPLOT
     ax = fig.add_subplot(gs[1, 0:3])
-    ax.set_title("Probability Spectrum", fontsize=TITLE_FONT)
+    ax.set_title("B: Probability Spectrum", fontsize=TITLE_FONT)
 
     im = ax.imshow(prob_spec,
                alpha=0.8,
@@ -176,7 +176,7 @@ for instance in instances:
 
     # SUCCESS PROBABILITY SUBPLOT
     ax = fig.add_subplot(gs[2, 0:3])
-    ax.set_title("Success Probability", fontsize=TITLE_FONT)
+    ax.set_title("C: Success Probability", fontsize=TITLE_FONT)
 
     ax.plot(snapshot_times, 100 * prob_spec[0,:],
     	    linewidth=2,
@@ -223,7 +223,7 @@ for instance in instances:
 
     # ENERGY RATIO SUBPLOT
     ax = fig.add_subplot(gs[1:3, 3:6])
-    ax.set_title(r"Energy Ratio $E_1/E_0$", fontsize=TITLE_FONT)
+    ax.set_title(r"D: Energy Ratio $E_1/E_0$", fontsize=TITLE_FONT)
 
     ax.plot(E_ratio_snapshot_times, E_ratio_full,
         linewidth=2,
@@ -246,5 +246,5 @@ for instance in instances:
 
 
     #plt.show()
-    plt.savefig(f"figures/test_{instance}_three_phase.png", dpi=150)
+    plt.savefig(f"figures/{instance}_three_phase.png", dpi=150)
     # plt.savefig(f"figures/{instance}_three_phase.svg")

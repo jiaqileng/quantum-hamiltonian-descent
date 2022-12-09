@@ -19,15 +19,33 @@ usemathjax: true
   <div class="plots-2d">
     <div class="method-comparison-plot">
       <figure>
-        <img src="{{ site.baseurl }}/assets/images/scatterplots/{{ short_name }}_scatter.png" alt="Comparison of optimization methods on {{ short_name }}" width="620" height="570">
-        <figcaption></figcaption>
+        <img src="{{ site.baseurl }}/assets/images/scatterplots/{{ short_name }}_scatter.png" alt="Comparison of optimization methods on {{ short_name }}" display="block" width="620" height="570">
+        <figcaption>
+          Samples from the distributions of QHD, QAA, NAGD, and SGD at different (effective) evolution times t=[0.1, 0.5, 2, 3, 5, 10] are shown as scatter plots.
+        </figcaption>
       </figure>
     </div>
 
     <div class="three-phase-plot">
       <figure>
-        <img src="{{ site.baseurl }}/assets/images/threephaseplots/{{ short_name }}_three_phase.png" alt="3-Phase Diagrams" width="1200" height="650">
-        <figcaption>Description of subplots</figcaption>
+        <img src="{{ site.baseurl }}/assets/images/threephaseplots/{{ short_name }}_three_phase.png" alt="3-Phase Diagrams" display="block" width="1200" height="650">
+        <figcaption>
+          The three-phase picture of QHD.
+          <ol type="A">
+          <li>
+            Surface plots of the probability density in QHD at different times.
+          </li>
+          <li>
+            Probability spectrum of QHD.
+          </li>
+          <li>
+            The success probabilities of QHD and QAA.
+          </li>
+          <li>
+            The energy ratio E1/E0 in QHD shown as a function of time.
+          </li>
+          </ol>
+        </figcaption>
       </figure>
     </div>
   </div>
