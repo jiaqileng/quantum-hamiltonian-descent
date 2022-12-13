@@ -1,0 +1,208 @@
+<div class="data-viewer-container">
+  <div id="data-viewer-2d"></div>
+</div>
+
+<script type="text/javascript">
+  {% assign prob_plot_data = include.fn | append: ".csv" %}
+  {% assign prob_plot_meta = include.fn | append: "-meta.csv" %}
+
+  plot_prob = async function() {
+    var target_url = "{{ site.baseurl }}/assets/plotdata/{{ prob_plot_data }}"
+    var meta_url = "{{ site.baseurl }}/assets/plotdata/{{ prob_plot_meta }}";
+
+    meta_response = await d3.csv(meta_url);
+    meta_dict = meta_response[0];
+
+    var num_frames = parseInt(meta_dict["num_frames"]);
+    var num_rows = parseInt(meta_dict["num_rows"]);
+    var items_per_row = parseInt(meta_dict["items_per_row"]);
+    var frames = new Array(num_frames);
+
+    STEP_SIZE = 1/64;
+
+    for(frame_idx = 0; frame_idx < num_frames; frame_idx++) {
+      frames[frame_idx] = {
+        name: "f"+frame_idx.toString(),
+        data: [{
+          z: new Array(num_rows),
+          type: "surface",
+          colorscale: "Viridis"
+        }]
+      };
+      for(row_idx = 0; row_idx < num_rows; row_idx++) {
+        frames[frame_idx].data[0].z[row_idx] = new Array(items_per_row);
+      }
+    }
+
+    var frame_idx = 0;
+    await d3.csv(target_url, function(row) {
+      for (const [key, value] of Object.entries(row)) {
+        // Column headers are of the form: x1;x2.
+        // This allows us to key the location on the domain when writing the
+        // wave function data to the CSV file.
+        let [h_x1, h_x2] = key.split(';');
+        h_x1 = parseInt(h_x1);
+        h_x2 = parseInt(h_x2);
+
+        // THIS DATA WAS FLATTENED IN PYTHON
+        frames[frame_idx].data[0].z[h_x1][h_x2] = value;
+      }
+      ++frame_idx;
+    });
+
+    // Easy deep copy
+    first_frame = JSON.parse(JSON.stringify(frames[0]))
+
+    var sliderSteps = [];
+
+    SHORT_START = 0;
+    SHORT_STOP = 1;
+    SHORT_STEP = 0.1;
+    num_short = Math.round((SHORT_STOP - SHORT_START) / SHORT_STEP);
+
+    LONG_STOP = 10;
+    LONG_STEP = 0.5;
+    num_long = 1 + Math.round((LONG_STOP - SHORT_STOP) / LONG_STEP);
+
+    for (i = SHORT_START; i < num_short; i++) {
+      sliderSteps.push({
+        method: "animate",
+        label: "T="+(0.1*i).toString().substring(0,3),
+        args: [["f"+i.toString()], {
+          mode: "immediate",
+          transition: {duration: 0},
+          frame: {duration: 0, redraw: true},
+        }]
+      });
+    }
+
+    for (i = 0; i < num_long; i++) {
+      sliderSteps.push({
+        method: "animate",
+        label: "T="+(SHORT_STOP + LONG_STEP*i).toString(),
+        args: [["f"+(num_short + i).toString()], {
+          mode: "immediate",
+          transition: {duration: 0},
+          frame: {duration: 0, redraw: true},
+        }]
+      });
+    }
+
+    // For equal time spacing, use
+    // for (i = 0; i < num_frames; i++) {
+    //   sliderSteps.push({
+    //     method: "animate",
+    //     label: "T="+(2.5*i).toString(),
+    //     args: [["f"+i.toString()], {
+    //       mode: "immediate",
+    //       transition: {duration: 0},
+    //       frame: {duration: 0, redraw: true},
+    //     }]
+    //   });
+    // }
+
+    NUM_STEPS = 64;
+    NUM_TICKS = 9;
+    RANGE = Array.from(Array(NUM_TICKS), (x, i) =>  i * NUM_STEPS / (NUM_TICKS-1));
+
+    TICKTEXT = ["0"].concat(Array.from(RANGE.slice(1, -1), (x, i) => (x).toString()+"/"+NUM_STEPS.toString())).concat(["1"]);
+    TICKVALS = [0].concat(RANGE.slice(1, -1)).concat([64]);
+
+    var layout = {
+      title: "{{ include.fn }}",
+      x: Array.from({length: num_rows}, (x, i) => i),
+      y: Array.from({length: items_per_row}, (x, i) => i),
+      scene: {
+        xaxis: {
+          ticktext: TICKTEXT,
+          tickvals: TICKVALS
+        },
+        yaxis: {
+          ticktext: TICKTEXT,
+          tickvals: TICKVALS
+        }
+      },
+
+      updatemenus: [{
+        x: 0,
+        y: 0,
+        xanchor: "top",
+        yanchor: "left",
+        active: -1,
+        showactive: true,
+        direction: "left",
+        type: "buttons",
+
+        buttons: [
+        {
+          label: "<<",
+          method: "animate",
+          args: [[frames.at(0).name], {
+            mode: "immediate",
+            transition: {duration: 0},
+            frame: {duration: 0, redraw: true}
+          }]
+        },
+        {
+          label: "Play / Pause",
+          method: "animate",
+          args: [null, {
+            mode: "immediate",
+            fromcurrent: true,
+            transition: {duration: 0},
+            frame: {duration: 500, redraw: true}
+          }],
+          args2: [[null], {
+            mode: "immediate",
+            fromcurrent: true,
+            transition: {duration: 0},
+            frame: {duration: 0, redraw: false}
+          }]
+        },
+        {
+          label: ">>",
+          method: "animate",
+          args: [[frames.at(-1).name], {
+            mode: "immediate",
+            transition: {duration: 0},
+            frame: {duration: 0, redraw: true}
+          }]
+        },]
+      }],
+
+      sliders: [{
+        steps: sliderSteps,
+        currentvalue: {
+          visible: true,
+          prefix: "Frame: ",
+          xanchor: "right",
+        },
+        len: 1,
+        pad: {l: 20}
+      }],
+
+      autosize: false,
+      width: 700,
+      height: 700,
+      margin: {
+        l: 65,
+        r: 50,
+        b: 65,
+        t: 90,
+      }
+    };
+
+    Plotly.newPlot("data-viewer-2d", {
+      data: first_frame.data,
+      layout: layout,
+      frames: frames
+    });
+
+    var myPlot = document.getElementById("data-viewer-2d")
+    myPlot.on("plotly_sliderchange", function(e){
+      console.log(e.step.label);
+    });
+  }
+
+  plot_prob();
+</script>

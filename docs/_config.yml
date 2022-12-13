@@ -1,0 +1,34 @@
+url: "https://jiaqileng.github.io"
+baseurl: "/quantum-hamiltonian-descent"
+
+collections:
+  authors:
+    output: true
+  functions2d:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: "authors"
+    values:
+      layout: "author"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "functions1d"
+    values:
+      layout: "function1d"
+  - scope:
+      path: ""
+      type: "functions2d"
+    values:
+      layout: "function2d"
+  - scope:
+      path: ""
+    values:
+      layout: "default"

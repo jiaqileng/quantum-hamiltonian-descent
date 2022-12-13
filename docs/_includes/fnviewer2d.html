@@ -1,0 +1,89 @@
+<div class="fn-viewer-container">
+  <div id="fn-viewer-2d"></div>
+</div>
+
+<script type="text/javascript">
+  {% assign fn_plot_data = include.fn | append: "-fn.csv" %}
+  {% assign fn_plot_meta = include.fn | append: "-fnmeta.csv" %}
+
+  plot_fn = async function() {
+    var target_url = "{{ site.baseurl }}/assets/plotdata/{{ fn_plot_data }}"
+    var meta_url = "{{ site.baseurl }}/assets/plotdata/{{ fn_plot_meta }}";
+
+    meta_response = await d3.csv(meta_url);
+    meta_dict = meta_response[0];
+
+    var num_rows = parseInt(meta_dict["num_rows"]);
+    var items_per_row = parseInt(meta_dict["items_per_row"]);
+
+    var frame = [{
+      name: "fn surface",
+      data: [{
+        z: new Array(num_rows),
+        type: "surface",
+        colorscale: "Viridis"
+      }]
+    }]
+
+
+    for(row_idx = 0; row_idx < num_rows; row_idx++) {
+      frame[0].data[0].z[row_idx] = new Array(items_per_row);
+    }
+
+    console.log(target_url);
+    await d3.csv(target_url, function(row) {
+      for (const [key, value] of Object.entries(row)) {
+        // Column headers are of the form: x1;x2.
+        let [h_x1, h_x2] = key.split(';');
+        h_x1 = parseInt(h_x1);
+        h_x2 = parseInt(h_x2);
+
+        // THIS DATA WAS FLATTENED IN MATLAB
+        frame[0].data[0].z[h_x2][h_x1] = value;
+        console.log(h_x2);
+      }
+    });
+
+    NUM_STEPS = 256;
+    NUM_TICKS = 9;
+    RANGE = Array.from(Array(NUM_TICKS), (x, i) =>  i * NUM_STEPS / (NUM_TICKS-1));
+
+    TICKTEXT = ["0"].concat(Array.from(RANGE.slice(1, -1), (x, i) => (x).toString()+"/"+NUM_STEPS.toString())).concat(["1"]);
+    TICKVALS = [0].concat(RANGE.slice(1, -1)).concat([NUM_STEPS]);
+
+    var layout = {
+      title: '{{ include.fn }} Surface Plot',
+      x: Array.from({length: num_rows}, (x, i) => i),
+      y: Array.from({length: items_per_row}, (x, i) => i),
+      scene: {
+        xaxis: {
+          ticktext: TICKTEXT,
+          tickvals: TICKVALS
+        },
+        yaxis: {
+          ticktext: TICKTEXT,
+          tickvals: TICKVALS
+        }
+      },
+      autosize: false,
+      width: 500,
+      height: 500,
+      margin: {
+        l: 65,
+        r: 50,
+        b: 65,
+        t: 90,
+      }
+    };
+
+    // console.log(frame[0].data[0].z);
+
+    Plotly.newPlot('fn-viewer-2d', {
+      data: frame[0].data,
+      layout: layout,
+      frames: frame
+    });
+  }
+
+  plot_fn();
+</script>

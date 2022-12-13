@@ -1,6 +1,6 @@
 import os
 
-MAIN_DIR = "/Users/lengjiaqi/QHD_DATA"
+MAIN_DIR = None
 
 if MAIN_DIR is None:
     assert False, "Please set MAIN_DIR to point to the QHD Data directory"

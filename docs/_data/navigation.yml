@@ -1,0 +1,12 @@
+- name: Home
+  link: /
+# - name: Executive Summary
+#   link: /paper.html
+- name: Nonconvex 2D
+  link: /nonconvex2d.html
+- name: Quadratic Programming
+  link: /qp.html
+- name: Details
+  link: /blog.html
+- name: About Us
+  link: /staff.html
