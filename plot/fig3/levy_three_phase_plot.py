@@ -43,28 +43,7 @@ plt.rcParams["text.usetex"] = True
 sns.set_theme()
 
 fname_to_label = {
-    "dropwave": "Drop-Wave",
     "levy": "Levy",
-    "levy13": "Levy 13",
-    "holder": "Holder Table",
-    "ackley2": "Ackley 2",
-    "bohachevsky2": "Bohachevsky 2",
-    "rosenbrock": "Rosenbrock",
-    "camel3": "Camel 3",
-    "csendes": "Csendes",
-    "defl_corr_spring": "Defl. Corr. Spring",
-    "michalewicz": "Michalewicz",
-    "easom": "Easom",
-    "xinsheyang3": "Xin-She Yang 3",
-    "alpine1": "Alpine 1",
-    "griewank": "Griewank",
-    "ackley": "Ackley",
-    "rastrigin": "Rastrigin",
-    "alpine2": "Alpine 2",
-    "hosaki": "Hosaki",
-    "shubert": "Shubert",
-    "styblinski_tang": "Styblinski-Tang",
-    "sumofsquares": "Sum of Squares"
 }
 
 
@@ -92,45 +71,57 @@ for instance in instances:
     Y = np.linspace(0, 1-(1/STEPS), STEPS)
     X, Y = np.meshgrid(X,Y)
 
-    fig = plt.figure(figsize=(12, 6.5))
-    gs = fig.add_gridspec(3, 6)
+    ## Panel B: probability density plot
+    fig = plt.figure(figsize=(6, 4.5))
+    gs = fig.add_gridspec(2,3)
 
 
     # QUANTUM PROBABILITY SUBPLOT
-    ax = fig.add_subplot(gs[0, :])
-    ax.set_title(f"Quantum Probability Density ({fname_to_label[instance]})", fontsize=TITLE_FONT)
-    ax.set_facecolor("white")
-    ax.set_xticks([])
-    ax.set_yticks([])
+    #ax = fig.add_subplot(gs[0:2,0:3])
+    #ax.set_title(f"Quantum Probability Density ({fname_to_label[instance]})", fontsize=TITLE_FONT)
+    #ax.set_facecolor("white")
+    #ax.set_xticks([])
+    #ax.set_yticks([])
 
-    for col in range(len(TIMES)):
-        t = TIMES[col]
-        wave_fn = np.load(os.path.join(qhd_wfn_dir, f"psi_{int(10*t)}e-01.npy"))
-        density = (wave_fn * wave_fn.conj()).real
+    for row in range(2):
+        for col in range(3):
+            t = TIMES[3*row+col]
+            wave_fn = np.load(os.path.join(qhd_wfn_dir, f"psi_{int(10*t)}e-01.npy"))
+            density = (wave_fn * wave_fn.conj()).real
 
-        ax = fig.add_subplot(gs[0, col], projection="3d")
-        ax.set_facecolor("white")
+            ax = fig.add_subplot(gs[row, col], projection="3d")
+            ax.set_facecolor("white")
 
-        surf = ax.plot_surface(X, Y, density,
-                               alpha=0.8,
-                               cmap="cool",
-                               linewidth=0,
-                               antialiased=True)
+            surf = ax.plot_surface(X, Y, density,
+                                   alpha=0.8,
+                                   cmap="cool",
+                                   linewidth=0,
+                                   antialiased=True)
 
-        ax.text2D(0.35, 0.85, f"t={t}", transform=ax.transAxes)
+            ax.text2D(0.35, 0.85, f"t = {t}", transform=ax.transAxes)
 
-        ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
-        ax.set_xticklabels([])
+            ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+            ax.set_xticklabels([])
 
-        ax.set_yticks([0, 0.25, 0.5, 0.75, 1])
-        ax.set_yticklabels([])
+            ax.set_yticks([0, 0.25, 0.5, 0.75, 1])
+            ax.set_yticklabels([])
 
-        ax.zaxis.set_major_formatter("{x:.2e}")
-        ax.tick_params('z', labelsize=5, pad=0)
+            ax.zaxis.set_major_formatter("{x:.2e}")
+            ax.tick_params('z', labelsize=5, pad=0)
+
+    plt.savefig(f"figures/{instance}_panel_B.png", dpi=300)
+    # plt.savefig(f"figures/{instance}_three_phase.svg")
+    plt.show()
+    #plt.clf()
+
+    ## Panel C: probability spectrum & energy ratio
+
+    fig = plt.figure(figsize=(12, 4.5))
+    gs = fig.add_gridspec(2, 6)
 
 
     # PROBABILITY SPECTRUM SUBPLOT
-    ax = fig.add_subplot(gs[1, 0:3])
+    ax = fig.add_subplot(gs[0, 0:3])
     ax.set_title("Probability Spectrum", fontsize=TITLE_FONT)
 
     im = ax.imshow(prob_spec,
@@ -175,7 +166,7 @@ for instance in instances:
 
 
     # SUCCESS PROBABILITY SUBPLOT
-    ax = fig.add_subplot(gs[2, 0:3])
+    ax = fig.add_subplot(gs[1, 0:3])
     ax.set_title("Success Probability", fontsize=TITLE_FONT)
 
     ax.plot(snapshot_times, 100 * prob_spec[0,:],
@@ -222,7 +213,7 @@ for instance in instances:
 
 
     # ENERGY RATIO SUBPLOT
-    ax = fig.add_subplot(gs[1:3, 3:6])
+    ax = fig.add_subplot(gs[0:2, 3:6])
     ax.set_title(r"Energy Ratio $E_1/E_0$", fontsize=TITLE_FONT)
 
     ax.plot(E_ratio_snapshot_times, E_ratio_full,
@@ -231,11 +222,12 @@ for instance in instances:
         marker='o')
 
     ax.set_xlim([0, 20])
+    ax.set_ylim([1.3, 2.7])
     ax.set_xticks(np.arange(0, 21, 1))
     ax.set_xticklabels(np.arange(0, 21, 1), fontsize=TEXT_FONT)
 
-    ax.set_yticks([1, 1.5, 2, 2.5])
-    ax.set_yticklabels([1, 1.5, 2, 2.5], fontsize=TEXT_FONT)
+    ax.set_yticks([1.5, 2, 2.5])
+    ax.set_yticklabels([1.5, 2, 2.5], fontsize=TEXT_FONT)
     ax.yaxis.tick_right()
     ax.yaxis.set_ticks_position("none")
     ax.yaxis.grid(color="gray", linestyle="dashed")
@@ -245,6 +237,6 @@ for instance in instances:
     ax.set_aspect(10/1.3 * RATIOS[2])
 
 
-    #plt.show()
-    plt.savefig(f"figures/test_{instance}_three_phase.png", dpi=150)
+    plt.savefig(f"figures/{instance}_panel_C.png", dpi=300)
     # plt.savefig(f"figures/{instance}_three_phase.svg")
+    plt.show()
