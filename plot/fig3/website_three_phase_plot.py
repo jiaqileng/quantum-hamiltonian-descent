@@ -33,12 +33,6 @@ TEXT_FONT = 10
 TIMES = [0.1, 0.5, 1, 2, 5, 10]
 RATIOS = [0.25, 0.2, 1.2]
 
-# Levy things
-# T1 = 0.5
-# T1_idx = 5
-# T2 = 3
-# T2_idx = 14
-
 plt.rcParams["text.usetex"] = True
 sns.set_theme()
 
@@ -69,8 +63,8 @@ fname_to_label = {
 
 
 # Set instance names
-instances = ["ackley"]
-# instances = list(fname_to_label.keys())
+# instances = ["ackley"]
+instances = list(fname_to_label.keys())
 
 for instance in instances:
     qhd_wfn_dir = f"{DATA_DIR_2D}/{instance}/{instance}_QHD256_WFN"
@@ -87,18 +81,53 @@ for instance in instances:
         E_ratio_snapshot_times = data["E_ratio_snapshot_times"]
         E_ratio_full = data["E_ratio_full"]
 
-
     X = np.linspace(0, 1-(1/STEPS), STEPS)
     Y = np.linspace(0, 1-(1/STEPS), STEPS)
     X, Y = np.meshgrid(X,Y)
 
-    fig = plt.figure(figsize=(12, 4.5))
-    gs = fig.add_gridspec(2, 6)
+    fig = plt.figure(figsize=(12, 6.5))
+    gs = fig.add_gridspec(3, 6)
+
+
+    # QUANTUM PROBABILITY SUBPLOT
+    ax = fig.add_subplot(gs[0, :])
+    ax.set_title(f"A: Quantum Probability Density ({fname_to_label[instance]})", fontsize=TITLE_FONT)
+    ax.set_facecolor("white")
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    for col in range(len(TIMES)):
+        t = TIMES[col]
+        wave_fn = np.load(os.path.join(qhd_wfn_dir, f"psi_{int(10*t)}e-01.npy"))
+        density = (wave_fn * wave_fn.conj()).real
+
+        ax = fig.add_subplot(gs[0, col], projection="3d")
+        ax.view_init(elev=30, azim=-120)
+        ax.set_facecolor("white")
+
+        surf = ax.plot_surface(X, Y, density,
+                               alpha=0.8,
+                               cmap="cool",
+                               linewidth=0,
+                               antialiased=True)
+
+        ax.text2D(0.35, 0.85, f"t={t}", transform=ax.transAxes)
+
+        ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+        ax.set_xticklabels([0, None, None, None, None])
+        ax.tick_params('x', labelsize=5, pad=-5)
+
+        ax.set_yticks([0, 0.25, 0.5, 0.75, 1])
+        ax.set_yticklabels([0, None, None, None, None])
+        ax.tick_params('y', labelsize=5, pad=-5)
+
+        ax.zaxis.set_major_formatter("{x:.2e}")
+        ax.tick_params('z', labelsize=5, pad=0)
 
 
     # PROBABILITY SPECTRUM SUBPLOT
-    ax = fig.add_subplot(gs[0, 0:3])
-    ax.set_title("Probability Spectrum", fontsize=TITLE_FONT)
+    ax = fig.add_subplot(gs[1, 0:3])
+    ax.set_title("B: Probability Spectrum", fontsize=TITLE_FONT)
 
     im = ax.imshow(prob_spec,
                alpha=0.8,
@@ -108,9 +137,6 @@ for instance in instances:
                cmap="gist_heat_r")
 
     width_per_cell = 125 / len(snapshot_times)
-
-    # ax.axvline(x=(T1_idx+0.5)*width_per_cell, linewidth=1, color="r",linestyle="dotted")
-    # ax.axvline(x=(T2_idx+0.5)*width_per_cell, linewidth=1, color="r",linestyle="dotted")
 
     ax.grid(False)
 
@@ -142,8 +168,8 @@ for instance in instances:
 
 
     # SUCCESS PROBABILITY SUBPLOT
-    ax = fig.add_subplot(gs[1, 0:3])
-    ax.set_title("Success Probability", fontsize=TITLE_FONT)
+    ax = fig.add_subplot(gs[2, 0:3])
+    ax.set_title("C: Success Probability", fontsize=TITLE_FONT)
 
     ax.plot(snapshot_times, 100 * prob_spec[0,:],
     	    linewidth=2,
@@ -163,9 +189,6 @@ for instance in instances:
     	    linewidth=2,
             color="dodgerblue",
     	    label="QAA success rate",)
-
-    # ax.axvline(x=T1, linewidth=1, color="r", linestyle="dotted")
-    # ax.axvline(x=T2, linewidth=1, color="r", linestyle="dotted")
 
     ax.set_xlim([0, 10])
     ax.set_xticks(np.arange(0, 12, 2))
@@ -189,8 +212,8 @@ for instance in instances:
 
 
     # ENERGY RATIO SUBPLOT
-    ax = fig.add_subplot(gs[0:2, 3:6])
-    ax.set_title(r"Energy Ratio $E_1/E_0$", fontsize=TITLE_FONT)
+    ax = fig.add_subplot(gs[1:3, 3:6])
+    ax.set_title(r"D: Energy Ratio $E_1/E_0$", fontsize=TITLE_FONT)
 
     ax.plot(E_ratio_snapshot_times, E_ratio_full,
         linewidth=2,
@@ -212,6 +235,6 @@ for instance in instances:
     ax.set_aspect(10/1.3 * RATIOS[2])
 
 
-    plt.savefig(f"figures/{instance}_three_phase.png", dpi=300)
+    #plt.show()
+    plt.savefig(f"figures/{instance}_three_phase.png", dpi=150)
     # plt.savefig(f"figures/{instance}_three_phase.svg")
-    plt.show()
