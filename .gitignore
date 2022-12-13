@@ -1,5 +1,5 @@
 # Config files
-config.py
+/config.py
 
 # OSX Finder information
 .DS_store
