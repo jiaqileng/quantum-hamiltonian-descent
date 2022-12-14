@@ -82,6 +82,7 @@ for instance in instances:
             density = (wave_fn * wave_fn.conj()).real
 
             ax = fig.add_subplot(gs[row, col], projection="3d")
+            ax.view_init(elev=30, azim=-120)
             ax.set_facecolor("white")
 
             surf = ax.plot_surface(X, Y, density,
@@ -92,17 +93,17 @@ for instance in instances:
 
             ax.text2D(0.35, 0.85, f"t = {t}", transform=ax.transAxes)
 
-            ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
-            ax.set_xticklabels([])
+            ax.set_xticks([0, 0.5, 1])
+            ax.set_xticklabels(['0','','1'])
 
-            ax.set_yticks([0, 0.25, 0.5, 0.75, 1])
-            ax.set_yticklabels([])
+            ax.set_yticks([0, 0.5, 1])
+            ax.set_yticklabels(['0','','1'])
 
             ax.zaxis.set_major_formatter("{x:.2e}")
             ax.tick_params('z', labelsize=5, pad=0)
 
     plt.savefig(f"figures/{instance}_panel_B.png", dpi=300)
-    # plt.savefig(f"figures/{instance}_three_phase.svg")
+    #plt.savefig(f"figures/{instance}_three_phase.svg")
     plt.show()
     #plt.clf()
 
