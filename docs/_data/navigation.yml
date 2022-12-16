@@ -1,7 +1,7 @@
 - name: Home
   link: /
-# - name: Executive Summary
-#   link: /paper.html
+ - name: Executive Summary
+  link: /paper.html
 - name: Nonconvex 2D
   link: /nonconvex2d.html
 - name: Quadratic Programming
