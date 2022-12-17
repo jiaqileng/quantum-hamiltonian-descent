@@ -134,7 +134,7 @@ In this work, we propose Quantum Hamiltonian Descent as a genuine quantum counte
 
 [2] Andre Wibisono, Ashia C Wilson, and Michael I Jordan, *A variational perspective on accelerated methods in optimization*, Proceedings of the National Academy of Sciences 113 (2016), no. 47, E7351–E7358.
 
-[3] Edward Farhi, Jeffrey Goldstone, Sam Gutmann, Joshua Lapan, Andrew Lundgren, and Daniel Preda, *A quantum adiabatic evolution algorithm applied to random instances of an np-complete problem*, Science 292 (2001), no. 5516, 472–475.
+[3] Edward Farhi, Jeffrey Goldstone, Sam Gutmann, Joshua Lapan, Andrew Lundgren, and Daniel Preda, *A quantum adiabatic evolution algorithm applied to random instances of an NP-complete problem*, Science 292 (2001), no. 5516, 472–475.
 
 [4] Gheorghe Nenciu, *Linear adiabatic theory: exponential estimates*, Communications in Mathematical Physics 152 (1993), no. 3, 479–496.
 
