@@ -1,6 +1,6 @@
 - name: Home
   link: /
- - name: Executive Summary
+- name: Executive Summary
   link: /paper.html
 - name: Nonconvex 2D
   link: /nonconvex2d.html
