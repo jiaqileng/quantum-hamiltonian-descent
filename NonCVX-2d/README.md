@@ -6,11 +6,11 @@ Quantum Hamiltonian Descent (QHD) is a novel physically-inspired quantum computi
 
 ## Benchmark Set: introducing the class 'Experiment2D'
 
-We build a benchmark set for non-convex numerical optimization. This set contains 30 non-convex objective functions, each with a **unique** global minimum (but possibly many local minima). Raw data of these functions can be found in "pdeexperiments/utils/experimentSetup.m": for each function, we include its analytical formula, domain of definition/optimization, coordinates of the global minizer.
+We build a benchmark set for non-convex numerical optimization. This set contains 22 objective functions (mostly non-convex), each with a **unique** global minimum (but possibly many local minima). Raw data of these functions can be found in "/utils/experimentSetup.m": for each function, we include its analytical formula, domain of definition/optimization, coordinates of the global minizer.
 
 
 
-For the sake of comparable performance in the numerical simulation of Schrodinger equations (PDE), we "normalize" all objective functions so that
+For the sake of comparable performance in the numerical simulation of Schrodinger equations (PDE), we *normalize* all objective functions so that
 
 - they are now defined on the unit square <img src="https://render.githubusercontent.com/render/math?math=[0,1]^2">;
 - their Lipschitz constants and Hessian condition number does not change;
