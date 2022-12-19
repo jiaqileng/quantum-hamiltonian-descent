@@ -6,20 +6,19 @@ Quantum Hamiltonian Descent (QHD) is a novel physically-inspired quantum computi
 
 ## Benchmark Set: introducing the class 'Experiment2D'
 
-We build a benchmark set for non-convex numerical optimization. This set contains 30 non-convex objective functions, each with a **unique** global minimum (but possibly many local minima). Raw data of these functions can be found in "pdeexperiments/utils/experimentSetup.m": for each function, we include its analytical formula, domain of definition/optimization, coordinates of the global minizer.
+We build a benchmark set for non-convex numerical optimization. This set contains 22 objective functions (mostly non-convex), each with a **unique** global minimum (but possibly many local minima). Raw data of these functions can be found in "/utils/experimentSetup.m": for each function, we include its analytical formula, domain of definition/optimization, coordinates of the global minizer.
 
 
 
-For the sake of comparable performance in the numerical simulation of Schrodinger equations (PDE), we "normalize" all objective functions so that
+For the sake of comparable performance in the numerical simulation of Schrodinger equations (PDE), we *normalize* all objective functions so that
 
-- they are now defined on the unit square <img src="https://render.githubusercontent.com/render/math?math=[0,1]^2">;
+- they are now defined on the unit square $[0,1]^2$;
 - their Lipschitz constants and Hessian condition number does not change;
 - their global minimum is 0;
 -  Dirichlet boundary condition is applied.
 
-
-
-To do so, for a function <img src="https://render.githubusercontent.com/render/math?math=f(x_1, x_2)"> originally defined on a square domain <img src="https://render.githubusercontent.com/render/math?math=[a,b]^2">, we transform it to be <img src="https://render.githubusercontent.com/render/math?math=F(x,y) := \frac{1}{L} f(a+Lx,a+Ly) - f_{\min}">, with <img src="https://render.githubusercontent.com/render/math?math=L = b-a">. The global minimizer for <img src="https://render.githubusercontent.com/render/math?math=F(x,y)"> is then <img src="https://render.githubusercontent.com/render/math?math=x^* = (x^*_1 - a)/L">, <img src="https://render.githubusercontent.com/render/math?math=y^* = (y^*_1 - a)/L">, where <img src="https://render.githubusercontent.com/render/math?math=(x^*_1, x^*_2)"> is the global minimizer of <img src="https://render.githubusercontent.com/render/math?math=f(x_1, x_2)">. By the chain rule, the gradient of <img src="https://render.githubusercontent.com/render/math?math=F(x,y)"> is <img src="https://render.githubusercontent.com/render/math?math=\nabla F(x,y) = \nabla f(a+Lx, a+Ly)">.
+To do so, for a function $f(x_1,x_2)$ originally defined on a square domain $[a,b]^2$ with global minimizer $x^\ast = (x^\ast_1, x^\ast_2)$, we transform it to be $F(y_1,y_2) := \frac{1}{L} f(a+Ly_1,a+Ly_2) - f_{\min}$, with $L=b-a$. The global minimizer for $F(y_1,y_2)$ is $y^\ast_1 = (x^\ast_1 - a)/L$, $y^\ast_2 = (x^\ast_2 - b)/L$. By the chain rule, the gradient of $F(y_1,y_2)$ is 
+$$\nabla F(y) = \nabla f(a + L y).$$
 
 
 This normalization has been implemented in "pdeexperiments/utils/@Experiment2D.m", which defines a new class **Experiment2D** for the purpose of automated benchmark testing. **Experiment2D** is a MATLAB class that specifies a 2-dimensional experiment instance with the following properties and methods:
