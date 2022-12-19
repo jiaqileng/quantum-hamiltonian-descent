@@ -9,7 +9,7 @@ Gradient descent (and its variant) is arguably the most fundamental optimization
   <img
     src="{{ site.baseurl }}/assets/images/figure1_small.png"
     alt="QP Comparisons"
-    style="display: block; margin-left: auto; margin-right: auto; width: 90%"
+    style="display: block; margin-left: auto; margin-right: auto; width: 60%"
   />
   <figcaption>
     <strong>Figure 1: Schematic of Quantum Hamiltonian Descent (QHD).</strong>
@@ -39,7 +39,7 @@ To visualize the difference between QHD and other classical/quantum algorithms, 
   <img
     src="{{ site.baseurl }}/assets/images/figure2_small.png"
     alt="QP Comparisons"
-    style="display: block; margin-left: auto; margin-right: auto; width: 90%"
+    style="display: block; margin-left: auto; margin-right: auto; width: 60%"
   />
   <figcaption>
     <strong>Figure 2: Quantum and classical optimization methods for two-dimensional test problems.</strong>
@@ -54,7 +54,7 @@ In Figure 2A, we plot the landscape of Levy function, and the solutions from the
   <img
     src="{{ site.baseurl }}/assets/images/figure3_small.png"
     alt="QP Comparisons"
-    style="display: block; margin-left: auto; margin-right: auto; width: 90%"
+    style="display: block; margin-left: auto; margin-right: auto; width: 60%"
   />
   <figcaption>
     <strong>Figure 3: The three-phase picture of QHD.</strong>
@@ -113,7 +113,7 @@ where $$t_f$$ is the average runtime per trial, and $$p_s$$ is the success proba
   <img
     src="{{ site.baseurl }}/assets/images/QPComparison.png"
     alt="QP Comparisons"
-    style="display: block; margin-left: auto; margin-right: auto; width: 90%"
+    style="display: block; margin-left: auto; margin-right: auto; width: 60%"
   />
   <figcaption>
     <strong>Figure 4: Experiment results for quadratic programming problems.</strong>

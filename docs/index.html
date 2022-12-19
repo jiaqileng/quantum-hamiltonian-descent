@@ -4,39 +4,47 @@ title: Home
 <div id="splash-container">
   <div id="splash-title-container">
     <h1 id="main-title">Quantum Hamiltonian Descent (QHD)</h1>
-    <h2 id="title-catchline">Proposal for a truly quantum counterpart of classical gradient methods</h2>
+    <h3 id="title-catchline">Proposal for a truly quantum counterpart of classical gradient methods</h3>
   </div>
   <div id="splash-card-container">
     <div class="splash-card">
       <div class="splash-card-heading">
-        <strong>Abstract</strong>
+        <strong>About QHD</strong>
       </div>
       <div class="splash-card-body">
-        <p>Gradient descent is a fundamental algorithm in both theory and practice, which has been widely  used in continuous optimization, machine learning, and so on. Identifying its counterpart in quantum computing is not only theoretically interesting but also could lead to practical quantum algorithms. A conventional approach to quantum speedups in optimization relies on the quantum acceleration of intermediate steps of corresponding classical algorithms, while keeping the overall trajectory of classical algorithms and the quality of their solutions.
+        <p>We propose Quantum Hamiltonian Descent (QHD) as a truly quantum counterpart of classical gradient methods, which is derived from the path integral of classical dynamical systems corresponding to the continuous-time limit of classical gradient descent algorithms. We establish QHD’s convergence to the global optimum in both convex and non-convex settings. More importantly, QHD is described as a time-dependent Hamiltonian evolution that can be efficiently simulated on both digital and analog quantum computers. By embedding QHD’s Hamiltonian evolution into the evolution of the so-called Quantum Ising Machine (including D-Wave and others),  we empirically observe that the D-Wave-implemented QHD outperforms a selection of state-of-the-art gradient-based classical solvers and the standard quantum adiabatic algorithm, based on the time-to-solution metric, on non-convex constrained quadratic programming instances up to 75 dimensions. Finally, we propose a “three-phase picture” to explain the behavior of QHD, especially its difference from the quantum adiabatic algorithm.
         </p>
-        <p>
-        We propose Quantum Hamiltonian Descent (QHD) as a truly quantum counterpart of classical gradient methods, which is derived from the path integral of classical dynamical systems corresponding to the continuous-time limit of classical gradient descent algorithms. We establish QHD’s convergence to the global optimum in both convex and non-convex settings. More importantly, QHD is described as a time-dependent Hamiltonian evolution that can be efficiently simulated on both digital and analog quantum computers. By embedding QHD’s Hamiltonian evolution into the evolution of the so-called Quantum Ising Machine (including D-Wave and others),  we empirically observe that the D-Wave-implemented QHD outperforms a selection of state-of-the-art gradient-based classical solvers and the standard quantum adiabatic algorithm, based on the time-to-solution metric, on non-convex constrained quadratic programming instances up to 75 dimensions. Finally, we propose a “three-phase picture” to explain the behavior of QHD, especially its difference from the quantum adiabatic algorithm.
-        </p>
+        <p>For more details:
+        <button onclick="window.location.href='paper.html';">
+          Executive Summary
+        </button> 
       </div>
     </div>
     <div class="splash-card">
       <div class="splash-card-heading">
-        <strong>Tested on two problem classes</strong>
+        <strong>Empirical Study</strong>
       </div>
       <div class="splash-card-body">
         <ul>
-          <li>Quadratic programming: Fifty random-instance band matrix quadratic programs in each of 50, 60, and 75 dimensions.
+          <li><button onclick="window.location.href='nonconvex2d.html';">
+            Nonconvex 2D
+          </button>  
+          22 two-dimensional test functions from the optimization literature
           <p>
-            See how QHD performs when specially encoded to run on the publicly-available D-Wave Advantage 6.1 quantum annealer. QHD compares favorably with both classical gradient methods and the native quantum annealing algorithm of the D-Wave device.
+            Play with interactive 3D visualizations of the QHD evolution! See the objective function definition and two surface plots of the function and the wave function probability distribution side by side on each function's dedicated page.
           </p>
           </li>
-          <li>
+          <li><button onclick="window.location.href='qp.html';">
+            Quadratic Programming
+          </button> 
+            160 randomly generated quadratic programming instances up to 75 dimensions
             <p>
-              Continuous functions: Twenty-two 2D test functions from the optimization literature
+              See how QHD performs when specially encoded to run on the publicly-available <a href="https://www.dwavesys.com/">D-Wave</a> Advantage 6.1 System. QHD compares favorably with both classical local solvers and the native quantum annealing algorithm of the D-Wave device.
             </p>
-            <p>
-              Play with interactive 3D visualizations of the QHD evolution in the `Nonconvex 2D` section of this site. See the objective function definition and two surface plots of the function and the wave function probability distribution side by side on each function's dedicated page.
-            </p>
+          </li>
+          <li>More details on our methodology and performance metrics: <button onclick="window.location.href='blog.html';">
+            Details
+          </button>
           </li>
         </ul>
       </div>
@@ -65,12 +73,11 @@ title: Home
     </div>
     <div class="splash-card">
       <div class="splash-card-heading">
-        Learn more about the standard benchmarking techniques we use in the Details section.
+        <strong>Sponsorship</strong>
       </div>
-    </div>
-    <div class="splash-card">
-      <div class="splash-card-heading">
-        Thank you to our sponsors!
+      <div class="splash-card-body">
+        <p>Thank you to our sponsors!
+        </p>
       </div>
       <div class="sponsor-pics">
         <a href="https://www.nsf.gov/" target="_blank"><img src="{{ site.baseurl }}/assets/images/NSF_Official_logo.svg" alt="NSF Official logo", width=250px></a>
