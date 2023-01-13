@@ -2,16 +2,16 @@
 author: ethan
 layout: post
 ---
-We use standard metrics for benchmarking QHD against the other optimization algorithms: success probability and average objective value.
+We use standard metrics for benchmarking QHD against the other optimization algorithms: **success probability** and **time-to-solutions (TTS)**.
 
 ## Success Probability
 Existing methods for non-convex optimization have little or no theoretical guarantee of convergence to global extrema. Of course, many optimization applications are most interested in finding a global minimizer. This makes empirical study of an algorithm's success rate on a variety of problems an interesting metric for optimization benchmarking.
 
-For the quadratic programming (QP) benchmark, we estimate the probability of the local solution lying in a sublevel set, defined by $$\mathbb{P}[f(x) - f(x^*) \leq r]$$, where $$r$$ is a small tolerance threshold. This metric is applicable when uniqueness of the global minima is not guaranteed.
+For the nonconvex 2D test functions, we compute the probability of an algorithm's solution lying in a ball centered at the unique global minimizer, defined by $$\mathbb{P}[\| x - x^* \| \leq r]$$, where $$r$$ is the radius of the ball. We set $$r= 0.1$$ in the experiment.
 
-Unlike the QP instances, the 2D test functions have a unique global minimum (in some cases the functions have been modified slightly to have only one). For this benchmark set, we compare the probability of an algorithm's solution lying in a ball centered at the global minimizer, defined by $$\mathbb{P}[\| x - x^* \| \leq r]$$, where $$r$$ is the radius of the ball.
+For the quadratic programming (QP) benchmark, we estimate the probability of the local solution lying in a sublevel set, defined by $$\mathbb{P}[f(x) - f(x^*) \leq 0.01]$$, where $$x^*$$ is a global solution returned by Gurobi. This metric is applicable when uniqueness of the global minima is not guaranteed.
 
-A disadvantage of a success probability metric is that it requires us to know where the global optimum is. In the case of QP, problems embeddable on the DWave device are still of low enough dimension that branch-and-bound methods can solve them to provable optimality. However, for real-world functions or higher dimension examples where no algorithm has shown exceedingly good performance, this metric cannot be calculated.
+A disadvantage of a success probability metric is that it requires us to know where the global optimum is. In the case of QP, problems embeddable on the DWave device are still of low enough dimension that branch-and-bound methods (such as Gurobi) can solve them to provable optimality. However, for real-world functions or higher dimension examples where no algorithm has shown exceedingly good performance, this metric cannot be calculated.
 
 ## Time to Solution (TTS)
 We use a time-to-solution (TTS) metric to compare the performance of the optimization algorithms. TTS is the number of runs or shots required to obtain the correct global solution at least once with 0.99 success probability.
