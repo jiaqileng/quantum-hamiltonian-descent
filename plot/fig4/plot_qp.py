@@ -39,10 +39,30 @@ errs = {}
 f, ax = plt.subplots(2, 2, figsize=(180/25.4, 95/25.4), dpi=300)
 plt.subplots_adjust(left=0.0, right=1.0, hspace=0.3)
 
-cmap = sns.color_palette("colorblind")
+# cmap = sns.color_palette("colorblind")
 
 DIMS = [5, 50, 60, 75]
 plot_assignment = {5: (0,0), 50: (0, 1), 60: (1, 0), 75: (1, 1)}
+
+# Color assignments
+tab_prob = pd.read_excel(join("qp_data", "QP-5d.xlsx"), sheet_name="time-to-solution (tts)", index_col=0)
+tab_prob.replace(np.inf, np.nan, inplace=True)
+methods = list(tab_prob.columns)
+num_methods = len(methods)
+limited_cmap = sns.color_palette("colorblind", num_methods)
+print(limited_cmap)
+print(methods)
+method_to_cmap_idx = {
+    'Sim-QHD': 7, 
+    'DW-QHD': 0,
+    'DW-QAA': 1, 
+    'Sim-QAA': 8, 
+    'TNC': 2, 
+    'SNOPT': 3, 
+    'MATLAB': 4, 
+    'QCQP': 5, 
+    'IPOPT': 6
+}
 
 for dim_idx in range(len(DIMS)):
     dim = DIMS[dim_idx]
@@ -54,16 +74,20 @@ for dim_idx in range(len(DIMS)):
     dataframe_filename = f"{benchmark_name}.xlsx"
     tab_prob = pd.read_excel(join("qp_data", dataframe_filename), sheet_name="time-to-solution (tts)", index_col=0)
     tab_prob.replace(np.inf, np.nan, inplace=True)
-    num_methods = len(tab_prob.columns)
+    methods = list(tab_prob.columns)
+    num_methods = len(methods)
+    colors = [limited_cmap[method_to_cmap_idx[method]] for method in methods]
 
-    sns.boxplot(ax=ax[plot_assignment[dim]], orient="h", data=tab_prob, palette="colorblind", showfliers=False, fliersize=FLIER_SIZE, linewidth=LINEWIDTH)
-    
+    # sns.boxplot(ax=ax[plot_assignment[dim]], orient="h", data=tab_prob, palette="colorblind", showfliers=False, fliersize=FLIER_SIZE, linewidth=LINEWIDTH)
+    sns.boxplot(ax=ax[plot_assignment[dim]], orient="h", data=tab_prob, palette=colors, showfliers=False, fliersize=FLIER_SIZE, linewidth=LINEWIDTH)
+
     means[dim] = []
     medians[dim] = []
     errs[dim] = np.ndarray((2, num_methods))
     
     for col_idx in range(num_methods):
-        col = tab_prob.columns[col_idx]    
+        col = tab_prob.columns[col_idx]
+        # print(col)  
         
         col_mean = np.nanmean(tab_prob[col])
         means[dim].append(col_mean)
@@ -77,13 +101,13 @@ for dim_idx in range(len(DIMS)):
         medians[dim].append(np.nanmedian(tab_prob[col]))
         errs[dim][:, col_idx] = np.abs(np.quantile(tab_prob[col], [0.25, 0.75]).T - medians[dim][-1])
         
-    ax[plot_assignment[dim]].axvline(medians[dim][0], linewidth=LINEWIDTH, color=cmap[0])
+    ax[plot_assignment[dim]].axvline(medians[dim][0], linewidth=LINEWIDTH, color=colors[0])
 
-i = 0
-for dim in [5, 50, 60, 75]:
-    color = cmap[i]
-    paired_color = tuple([(channel + 0.5*(1-channel)) for channel in color])
-    i += 1
+# i = 0
+# for dim in [5, 50, 60, 75]:
+#     color = cmap[i]
+#     paired_color = tuple([(channel + 0.5*(1-channel)) for channel in color])
+#     i += 1
 
 
 for key in plot_assignment.keys():
@@ -104,4 +128,4 @@ if SHOULD_SAVE:
     for ext in ['.svg', '.png']:
         plt.savefig(f"figures/{fname+ext}")
 
-plt.show()
+# plt.show()
