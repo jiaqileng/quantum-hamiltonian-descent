@@ -1,0 +1,28 @@
+COPYRIGHT AND PERMISSION NOTICE
+UMD Data "QHD_DATA"
+Copyright (C) 2023 University of Maryland
+All rights reserved.
+
+The University of Maryland (“UMD”) and the authors of "QHD_DATA" data (“Data”)
+give recipient (“Recipient”) permission to download a single copy of the Data and use by university,
+non-profit, or research institution users only, provided that the following conditions are met:
+
+1)	Recipient may use the Data for any purpose, EXCEPT for commercial benefit.
+
+2)	Recipient will not copy the Data.
+
+3)	Recipient will not sell the Data.
+
+4)	Recipient will not give the Data to any third party.
+
+5)	Any party desiring a license to use the Data for commercial purposes shall contact:
+
+UM Ventures, College Park at UMD at otc@umd.edu.
+
+THIS DATA IS PROVIDED BY THE COPYRIGHT HOLDERS, CONTRIBUTORS, AND THE UNIVERSITY OF MARYLAND "AS IS" AND ANY EXPRESS
+OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO  EVENT SHALL THE COPYRIGHT OWNER, CONTRIBUTORS OR THE UNIVERSITY OF MARYLAND BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,  PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS DATA,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
