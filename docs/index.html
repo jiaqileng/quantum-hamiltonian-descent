@@ -12,7 +12,7 @@ title: Home
         <strong>About QHD</strong>
       </div>
       <div class="splash-card-body">
-        <p>We propose Quantum Hamiltonian Descent (QHD) as a truly quantum counterpart of classical gradient methods, which is derived from the path integral of classical dynamical systems corresponding to the continuous-time limit of classical gradient descent algorithms. We establish QHD’s convergence to the global optimum in both convex and non-convex settings. More importantly, QHD is described as a time-dependent Hamiltonian evolution that can be efficiently simulated on both digital and analog quantum computers. By embedding QHD’s Hamiltonian evolution into the evolution of the so-called Quantum Ising Machine (including D-Wave and others),  we empirically observe that the D-Wave-implemented QHD outperforms a selection of state-of-the-art gradient-based classical solvers and the standard quantum adiabatic algorithm, based on the time-to-solution metric, on non-convex constrained quadratic programming instances up to 75 dimensions. Finally, we propose a “three-phase picture” to explain the behavior of QHD, especially its difference from the quantum adiabatic algorithm.
+        <p>We propose Quantum Hamiltonian Descent (QHD), which is derived from the path integral of dynamical systems referring to the continuous-time limit of classical gradient descent algorithms, as a truly quantum counterpart of classical gradient methods where the contribution from classically-prohibited trajectories can significantly boost QHD’s performance for non-convex optimization. Moreover, QHD is described as a Hamiltonian evolution efficiently simulatable on both digital and analog quantum computers. By embedding the dynamics of QHD into the evolution of the so-called Quantum Ising Machine (including D-Wave and others), we empirically observe that the D-Wave-implemented QHD outperforms a selection of state-of-the-art gradient-based classical solvers and the standard quantum adiabatic algorithm, based on the time-to-solution metric, on non-convex constrained quadratic programming instances up to 75 dimensions. Finally, we propose a “three-phase picture” to explain the behavior of QHD, especially its difference from the quantum adiabatic algorithm.
         </p>
         <p>For more details:
         <button onclick="window.location.href='paper.html';">
@@ -59,6 +59,9 @@ title: Home
             <!-- <li>
               Read a robust summary of the QHD project in the Executive Summary section.
             </li> -->
+            <li>
+              The full technical paper can be found on the arXiv at <a href="https://arxiv.org/abs/2303.01471" target="_blank">https://arxiv.org/abs/2303.01471</a>.
+            </li>
             <li>
               Find the project's source code at the <a href="https://github.com/jiaqileng/quantum-hamiltonian-descent" target="_blank">QHD Github</a> for an in-depth look at our experiments and data-wrangling.
             </li>
