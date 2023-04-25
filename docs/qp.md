@@ -1,7 +1,7 @@
 ---
 layout: qp
 ---
-In this benchmark test, we compare QHD run on the D-Wave Advantage 6.1 system with the standard quantum adiabatic algorithm, UCSD's SNOPT, COIN-OR's IPOPT, MATLAB's `fmincon`, QCQP, and Scipy's `minimize` on four sets of randomly generated quadratic programming problems of various dimensions (5d, 50d, 60d, 75d). QHD compares favorably with both classical local solvers and the native quantum annealing algorithm of the D-Wave device.
+In this benchmark test, we compare QHD run on the D-Wave Advantage 6.1 system with the standard quantum adiabatic algorithm, UCSD's SNOPT, COIN-OR's IPOPT, MATLAB's `fmincon`, QCQP, and SciPy's `minimize` on four sets of randomly generated quadratic programming problems of various dimensions (5d, 50d, 60d, 75d). QHD compares favorably with both classical local solvers and the native quantum annealing algorithm of the D-Wave device.
 
 ## Problem Formulation
 
@@ -12,7 +12,7 @@ In our experiment, we consider [quadratic programming](https://en.wikipedia.org/
 
 We randomly generate instances of dimension 5, 50, 60, 75 and compare the performance of multiple methods and solvers. Due to the limited connectivity and number of qubits, the maximum dimension of the problems we are able to embed on the D-Wave QPU is roughly 75. To create the problems we uniformly sample entries for the Hessian matrices $$Q$$ on $$[0,1]$$ with pentadiagonal structure in order to fix a maximum sparsity. This makes a [minor embedding](https://docs.ocean.dwavesys.com/en/stable/concepts/embedding.html) possible so that the problem can be run on the D-Wave QPU.
 
-For each of problem sets, we compare the performance of six methods (see "Comparisons" in [Details](blog.html)): QHD on D-Wave, QAA on D-Wave, IPOPT, SNOPT, MATLAB's `fmincon` with SQP, QCQP, and a Scipy's `minimize`.
+For each of problem sets, we compare the performance of six methods (see "Comparisons" in [Details](blog.html)): QHD on D-Wave, QAA on D-Wave, IPOPT, SNOPT, MATLAB's `fmincon` with SQP, QCQP, and a SciPy's `minimize`.
 For the classical methods, the initial points are drawn uniformly at random from $$[0,1]^d$$.
 
 We use the **time-to-solution** (TTS) metric to compare the performance of solvers. TTS is the number of trials (i.e., initialization for classical solvers or shot for quantum solvers) required to obtain the correct global solution up to 0.99 success probability:

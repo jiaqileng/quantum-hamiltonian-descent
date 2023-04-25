@@ -20,7 +20,7 @@ For comparison with other methods, we can examine both the path that these metri
 - [**MATLAB `fmincon`**](https://www.mathworks.com/help/optim/ug/fmincon.html):
   MATLAB's nonlinear programming solver. We use it in its sequential quadratic programming mode.
 
-- [**Truncated Newton Method**](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-tnc.html): Offered as a method built in to Scipy as `scipy.optimize.minimize(method='TNC')`.
+- [**Truncated Newton Method**](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-tnc.html): Offered as a method built in to SciPy as `scipy.optimize.minimize(method='TNC')`.
 
 - [**Quadratically Constrained Quadratic Programming (QCQP)**](https://www.mathworks.com/help/optim/ug/fmincon.html):
   https://stanford.edu/~boyd/papers/qcqp.html
