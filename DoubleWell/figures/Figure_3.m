@@ -21,60 +21,60 @@ d2f = @(x) 12 * x.^2 - 2;
 V_diag = f(X);
 H_V = spdiags([V_diag'], 0, total_num_cells, total_num_cells);
 
-%%
-lambda_f = 40;
-H_f = (1/lambda_f) * H_D + lambda_f * H_V;
-EPS = [5e-2, 6e-2, 7e-2, 8e-2, 9e-2, 1e-1, 2e-1, 3e-1, 5e-1];
-ERR = zeros(1, length(EPS));
+% indicator
+xmin = -0.722;
+delta = 0.5;
+ind_nbhd = abs(X - xmin) < delta;
 
-[eigvecs,~] = eigs(H_f, 10, 'SA');
-g_state = eigvecs(:,1);
+%% 
+Lambda = [2, 4, 8, 16, 32, 64];
+failure_prob = zeros(1, length(Lambda));
+g_state_failure_prob = zeros(1, length(Lambda));
 
-%%
-for k = 1:length(EPS)
-    eps = EPS(k);
-    err = ground_state_error(eps, lambda_f, H_D, V_diag, dx, total_num_cells, g_state);
-    fprintf('eps = %d, infidelity = %d\n', eps, err);
-    ERR(k) = err;
-    endle
+for k = 1:length(Lambda)
+    lambda_f = Lambda(k);
+    t_f = log(lambda_f);
+    eps = 1 / (20 * t_f);
+    
+    lambda_t = @(s) exp(2 * s - t_f);
+    tdep1 = @(t) 1 / lambda_t(eps * t);
+    tdep2 = @(t) lambda_t(eps * t);
+    T = t_f / eps;
+    dt = 0.5 * dx^2 / lambda_f;
+    cap_frame_every = floor(0.01 * T/dt);
 
-%% Polyfit & plot
+    psi0 = ones(total_num_cells,1) / sqrt(total_num_cells);
+    Re = abs(psi0);
+    Im = zeros(total_num_cells, 1);
+
+    [~, psi] = scheqleapfrog2(Re, Im, ...
+                                           H_D, V_diag', ...
+                                           T, dt, tdep1, tdep2, ...
+                                           cap_frame_every);
+    prob = abs(psi(end,:)).^2;
+    failure_prob(k) = 1 - dot(prob, ind_nbhd);
+    fprintf('lambda_f = %d, failure probability = %d\n', lambda_f, failure_prob(k));
+    
+    H_f = (1/lambda_f) * H_D + lambda_f * H_V;
+    [eigvecs,~] = eigs(H_f, 10, 'SA');
+    g_state = eigvecs(:,1);
+    g_prob = abs(g_state).^2;
+    g_state_failure_prob(k) = 1 - dot(g_prob, ind_nbhd);
+    fprintf('lambda_f = %d, g_state failure probability = %d\n', lambda_f, g_state_failure_prob(k));
+    
+end
+%% Plot
 
 figure;
-loglog(EPS, ERR, 'b-o', 'LineWidth', 2, 'DisplayName', 'Numerical results');
+semilogy(Lambda, failure_prob, 'b-o', 'LineWidth', 2, 'MarkerSize', 10, 'DisplayName', 'QHD at $t = \log(\lambda_f)$');
 hold on
-loglog(EPS, EPS, 'r--', 'LineWidth', 2, 'DisplayName','Theoretical ref: $y = \epsilon$');
+semilogy(Lambda, g_state_failure_prob, 'r-s', 'LineWidth', 2, 'MarkerSize', 10, 'DisplayName','Ground state at $\lambda = \lambda_f$');
 
-legend('Interpreter','latex', 'FontSize', 14, 'Location', 'northwest')
-xlabel({'$\epsilon$'},'Interpreter','latex', 'FontSize', 14)
-title({'Adiabatic error v.s. $\epsilon$'},'Interpreter','latex', 'FontSize', 16)
+legend('Interpreter','latex', 'FontSize', 16, 'Location', 'northeast')
+xlabel({'$\lambda_f$'},'Interpreter','latex', 'FontSize', 14);
+ylabel({'Failure probability'}, 'FontSize', 14);
+%title('Failure probability', 'FontSize', 20, 'FontName', 'Helvetica')
 
-%f = gcf;
-%exportgraphics(f,'semiclassical_gap.png','Resolution', 300)
+f = gcf;
+exportgraphics(f,'Figure_3.png','Resolution', 300)
 
-%%
-function err = ground_state_error(eps, lambda_f, H_D, V_diag, dx, total_num_cells, g_state)
-%%
-%eps = 5e-2;
-%lambda_f = 40;
-
-t_f = log(lambda_f);
-lambda_t = @(s) exp(2 * s - t_f);
-
-tdep1 = @(t) 1 / lambda_t(eps * t);
-tdep2 = @(t) lambda_t(eps * t);
-T = t_f / eps;
-dt = 0.5 * dx^2 / lambda_f;
-cap_frame_every = floor(0.01 * T/dt);
-
-[psi0, ~] = eigs(H_D, 1, 'SA');
-Re = abs(psi0);
-Im = zeros(total_num_cells, 1);
-
-[~, psi] = scheqleapfrog2(Re, Im, ...
-                                       H_D, V_diag', ...
-                                       T, dt, tdep1, tdep2, ...
-                                       cap_frame_every);
-
-err = 1 - abs(dot(psi(end,:)', g_state)).^2;
-end
