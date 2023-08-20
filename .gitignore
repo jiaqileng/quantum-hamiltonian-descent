@@ -2,7 +2,7 @@
 /config.py
 
 # OSX Finder information
-.DS_store
+.DS_Store
 
 # ipython notebook checkpoints
 *.ipynb_checkpoints

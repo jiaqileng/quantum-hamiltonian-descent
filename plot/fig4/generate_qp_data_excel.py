@@ -27,7 +27,13 @@ def save_data(dimension, resolution, tol):
                    f"tnc_post_advantage6_sim_qaa_rez{resolution}_T1000",
                    "tnc", "snopt", "matlab_sqp", "qcqp", "ipopt"]
         methods_short = ["Sim-QHD","DW-QHD","DW-QAA","Sim-QAA","TNC","SNOPT","MATLAB","QCQP","IPOPT"]
-
+    if dimension == 50:
+        # Manually setting the order the data will plot in for d=50
+        benchmark_name = f"QP-{dimension}d-5s"
+        num_instances = 50
+        methods = [f"tnc_post_advantage6_qhd_rez{resolution}", "snopt",
+                   f"tnc_post_advantage6_qaa_rez{resolution}", "tnc", "matlab_sqp", "ipopt", "qcqp",]
+        methods_short = ["DW-QHD","SNOPT","DW-QAA","TNC","MATLAB","IPOPT","QCQP"]
     else:
         benchmark_name = f"QP-{dimension}d-5s"
         num_instances = 50

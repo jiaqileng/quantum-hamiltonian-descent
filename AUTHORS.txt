@@ -1,0 +1,5 @@
+Authors of Quantum Hamiltonian Descent:
+Jiaqi Leng
+Ethan Hickman
+Joseph Li
+Xiaodi Wu

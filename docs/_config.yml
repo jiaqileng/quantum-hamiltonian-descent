@@ -1,6 +1,8 @@
 url: "https://jiaqileng.github.io"
 baseurl: "/quantum-hamiltonian-descent"
 
+google_analytics: G-SR3TSB368N
+
 collections:
   authors:
     output: true
