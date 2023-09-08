@@ -46,7 +46,7 @@ figure('position',[0,0,1200,400]);
 subplot(121)
 XX = linspace(-1, 1, total_num_cells);
 plot(XX, f(XX) - fmin, 'r-', 'LineWidth', 5);
-title({'$f(x) = x^4 - (x-1/32)^2 - c$'},'Interpreter','latex', 'FontSize', 25);
+title({'$w(x) = x^4 - (x-1/32)^2 - c$'},'Interpreter','latex', 'FontSize', 25);
 
 subplot(122)
 plot(Lambda, gap, 'b-', 'LineWidth', 5);
