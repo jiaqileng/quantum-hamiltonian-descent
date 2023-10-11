@@ -41,15 +41,15 @@ class QuadraticProgram():
         """Returns the Jacobian of the constraints with respect to x."""
         return np.array([self.Q_c[i] for i in range(self.num_cons)]).flatten()
     def hessianstructure(self):
-        
-        return np.nonzero(np.ones(shape=(self.dim, self.dim)))
+        """Returns indices of non-zero values of the Hessian."""
+        return np.nonzero(np.tril(np.ones(shape=(self.dim, self.dim))))
     def hessian(self, x, lagrange, obj_factor):
         """Returns the non-zero values of the Hessian."""
         H = obj_factor * self.Q
         for i in range(self.num_cons):
             H += lagrange[i] * self.Q_c[i]
-        #row, col = self.hessianstructure()
-        return H.flatten()
+        row, col = self.hessianstructure()
+        return H[row, col]
     def intermediate(self, alg_mod, iter_count, obj_value, inf_pr, inf_du, mu,
                      d_norm, regularization_size, alpha_du, alpha_pr,
                      ls_trials):
