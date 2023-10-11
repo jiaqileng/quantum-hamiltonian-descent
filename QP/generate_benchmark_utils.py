@@ -3,6 +3,7 @@ import scipy.sparse
 import gurobipy as gp
 
 def construct_sparse(bandwidth : int, dimension : int):
+    assert bandwidth < dimension, "Bandwidth should be less than dimension."
     diags = [(2 * np.random.rand(dimension - i) - 1) for i in range(bandwidth + 1)]
     offsets = list(range(bandwidth + 1))
     A = scipy.sparse.diags(diags, offsets).toarray()
