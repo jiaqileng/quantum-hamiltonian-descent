@@ -302,7 +302,7 @@ for method_idx in range(len(which_to_plot)):
             ax[category_idx].set_yticklabels([])
 
         ax[category_idx].set_title(category, fontsize=CATTITLE_SIZE)
-
+        ax[category_idx].set_ylim([-0.05,1.05])
         ax[category_idx].set_xticks(list(range(len(X))))
         xlabels = [fname_to_label[fn] for fn in features[category]]
         ax[category_idx].set_xticklabels(xlabels, rotation=60,)
