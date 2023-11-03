@@ -1,11 +1,12 @@
 # Quantum Hamiltonian Descent
 
+[![Paper](https://img.shields.io/badge/Paper-arxiv-red)](https://arxiv.org/abs/2303.01471)
+[![Pages](https://img.shields.io/badge/Website-Link-yellow)](https://jiaqileng.github.io/quantum-hamiltonian-descent/)
+
 Quantum Hamiltonian Descent (QHD) is a novel framework of quantum algorithms for continuous optimization.
 
 This is a joint work by [Jiaqi Leng](https://jiaqileng.github.io/), [Ethan Hickman](https://eth-n.github.io/), [Joseph Li](https://jli0108.github.io/), and [Xiaodi Wu](https://www.cs.umd.edu/~xwu/).
 
-
-## Experiment setup
 
 ## Data
 All the experiment results (raw data) are available [here](https://umd.box.com/s/vq747fvjnt8qrkbxprexhoh44n0q9m0i).
