@@ -59,7 +59,3 @@ This normalization has been implemented in "pdeexperiments/utils/@Experiment2D.m
 - *fdmleapfrog*: a centered finite difference scheme + Leapfrog time propagation;
 
 - *pseudospec*: a pseudospectral spatial discretization scheme + 2nd order Trotter.
-
-
-
-## Hybrid-QHD: a QHD-inspired variational optimization algorithm
